@@ -10,6 +10,7 @@ import GroupSize from "./GroupSize";
 import BudgetUi from "./BudgetUi";
 import SelectDayUi from "./SelectDayUi";
 import FinalTripUi from "./FinalTripUi";
+import { useTrip } from "@/app/TripContext";
 
 type Message = {
   role: string;
@@ -28,6 +29,7 @@ export type Activity = {
   ticket_pricing: string;
   time_travel_each_location: string;
   best_time_to_visit: string;
+  place_name: string
 };
 
 export type Itinerary = {
@@ -63,6 +65,8 @@ function ChatBox() {
   const [loading, setLoading] = useState<boolean>(false);
   const [isFinal, setIsFinal] = useState<boolean>(false);
   const [tripDetail, setTripDetails] = useState<TripInfo>();
+  const { setTrip } = useTrip();
+
 
   useEffect(() => {
     let storedId = localStorage.getItem("trip_session_id");
@@ -114,6 +118,7 @@ function ChatBox() {
             result?.data?.trip_plan
           );
           setTripDetails(result?.data?.trip_plan);
+          setTrip(result.data.trip_plan);
         }
       } catch (err) {
         console.error("Error from API:", err);
@@ -238,6 +243,12 @@ function ChatBox() {
           </div>
         </div>
       </section>
+      {/* <FinalTripUi
+          viewTrip={() => {
+            console.log("Trip viewed ✅");
+          }}
+          disable={tripDetail}
+        /> */}
     </div>
   );
 }

@@ -40,3 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 my--------.txt
+/.vscode
+.vscode
+.next
+
+
+google-place-detail
