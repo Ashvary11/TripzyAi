@@ -6,6 +6,8 @@ import { InMemoryChatMessageHistory } from "@langchain/core/chat_history";
 import { currentUser } from "@clerk/nextjs/server";
 import { aj } from "../arcjet/route";
 import { ArcjetRateLimitReason } from "@arcjet/next";
+import axios from "axios";
+import createAndSaveTrip from "../trip/createAndSave.js";
 
 // ----------------- Memory Setup -----------------
 const messageHistories = new Map<string, InMemoryChatMessageHistory>();
@@ -65,7 +67,7 @@ Schema:
       {{
         "hotel_name": string,
         "hotel_address": string,
-        "hotel_image_url": "string"
+        "hotel_image_url": string
         "price_per_night": string,
         "geo_coordinates": {{
           "latitude": number,
@@ -127,7 +129,7 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    // ------ reate limiting
+    // ------ rate limiting
     const user = await currentUser()
     const decision = await aj.protect(req, { userId: user?.primaryEmailAddress?.emailAddress ?? "", requested: isFinal ? 1 : 0 }); // Deduct 1 tokens from the bucket
     // console.log("Arcjet decision", decision);
@@ -208,7 +210,17 @@ export async function POST(req: NextRequest) {
     }
     // console.log("messagehistry Obj:--", messageHistories);
     console.log("backed_parsed:--", parsed);
+    // 
+    if (parsed.trip_plan) {
+      try {
+        await createAndSaveTrip(parsed.trip_plan)
+        console.log("axiosDataTest", parsed.trip_plan);
+      } catch (err) {
+        console.error("Failed to save trip", err);
+      }
+    }
 
+    // 
     return NextResponse.json(parsed);
   } catch (error) {
     console.error(error);

@@ -4,13 +4,10 @@ import { Timeline } from "@/components/ui/timeline";
 import Image from "next/image";
 import {
   ArrowLeft,
-  BookOpen,
   Clock,
-  ExternalLink,
   HotelIcon,
   Star,
   Ticket,
-  View,
   Wallet,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -103,7 +100,7 @@ export function Itineray() {
   // };
   // const { trip } = useTrip();
   const { trip_data } = useTrip();
-  const data = !trip_data?[]:[
+  const data = !trip_data ? [] : [
     {
       title: "Recommended Hotels",
       content: (
@@ -117,8 +114,7 @@ export function Itineray() {
                 <Image
                   // src={"/hottel1.jpg"}
                   src={hotel?.hotel_image_url}
-                  alt={hotel?.hotel_name
-}
+                  alt={hotel?.hotel_name}
                   width={400}
                   height={200}
                   className="rounded-2xl shadow object-cover mb-2"
@@ -170,7 +166,7 @@ export function Itineray() {
                     height={200}
                     alt={activity?.place_name}
                     className="object-cover rounded-xl"
-                    unoptimized   
+                    unoptimized
                   />
                   <h2 className="font-semibold text-lg">
                     {activity?.place_name}
@@ -220,7 +216,7 @@ export function Itineray() {
             height={400}
             alt="travel"
             className="w-full h-full object-cover rounded-3"
-            unoptimized   
+            unoptimized
           />
           <p
             className="absolute bottom-3 left-3 flex items-center   

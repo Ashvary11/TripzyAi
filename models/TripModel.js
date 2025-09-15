@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const TripSchema = new mongoose.Schema(
   {
-    userId: { type: String, required: true }, // Clerk or Auth user ID
+    userId: { type: String, required: true }, // Clerk ID
 
     trip_plan: {
       destination: { type: String, required: true },

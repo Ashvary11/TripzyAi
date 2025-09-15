@@ -24,7 +24,7 @@ function Header() {
   // console.log(user);
 
   const path = usePathname();
-  console.log(path);
+  // console.log(path);
 
   return (
     <div className="flex justify-between items-center p-4">
