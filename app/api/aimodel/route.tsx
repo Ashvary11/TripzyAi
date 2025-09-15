@@ -3,6 +3,9 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnableWithMessageHistory } from "@langchain/core/runnables";
 import { InMemoryChatMessageHistory } from "@langchain/core/chat_history";
+import { currentUser } from "@clerk/nextjs/server";
+import { aj } from "../arcjet/route";
+import { ArcjetRateLimitReason } from "@arcjet/next";
 
 // ----------------- Memory Setup -----------------
 const messageHistories = new Map<string, InMemoryChatMessageHistory>();
@@ -11,6 +14,8 @@ const messageHistories = new Map<string, InMemoryChatMessageHistory>();
 
 const Prompt = `You are an AI Trip Planner Agent. 
 Your goal is to help the user plan a trip by asking one relevant trip-related question at a time. 
+
+If the user sends a message such as "Create New Trip", "Inspire me where to go", "Discover hidden gems", or "Adventure Destination", first respond with a travel suggestion, then continue the planning flow.
 
 Ask questions in this exact order, waiting for the user's answer before moving to the next:
 1. Starting location (source)
@@ -25,6 +30,7 @@ Rules:
 - Never ask multiple questions at once.
 - Never ask irrelevant questions.
 - If an answer is missing or unclear, politely ask for clarification.
+- If the user has already provided all required details in one message, skip questions and generate the final trip plan immediately using the FinalPrompt schema.
 - Keep responses conversational and interactive.
 
 Response format:
@@ -35,9 +41,9 @@ Schema:
   "resp": "Your text response here",
   "ui": "budget | groupSize | tripDuration | interests | final"
 }}
+
 Important:
 - After collecting all required details, always return with "ui": "final".
-  
 `;
 
 const FinalPrompt = `Generate a detailed Travel Plan with the given details. 
@@ -59,7 +65,7 @@ Schema:
       {{
         "hotel_name": string,
         "hotel_address": string,
-        "hotel_image_url": string,
+        "hotel_image_url": "string"
         "price_per_night": string,
         "geo_coordinates": {{
           "latitude": number,
@@ -92,7 +98,14 @@ Schema:
       }}
     ]
   }}
-}}`;
+}}
+  
+Important:
+- Use only **direct HTTPS links from Unsplash, Wikimedia Commons, or official hotel/tourism websites** for hotel_image_url and place_image_url.
+- Do not use example.com, Googleusercontent, or placeholders. The URL must point directly to an image file. 
+- After collecting all required details, always return with "ui": "final".
+
+`;
 
 // ----------------- Model -----------------
 const llm = new ChatGoogleGenerativeAI({
@@ -103,6 +116,7 @@ const llm = new ChatGoogleGenerativeAI({
 
 // ----------------- API Route -----------------
 export async function POST(req: NextRequest) {
+
   try {
     const { messages, sessionId, isFinal } = await req.json();
     console.log("backend", messages, sessionId);
@@ -113,6 +127,24 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    // ------ reate limiting
+    const user = await currentUser()
+    const decision = await aj.protect(req, { userId: user?.primaryEmailAddress?.emailAddress ?? "", requested: isFinal ? 1 : 0 }); // Deduct 1 tokens from the bucket
+    // console.log("Arcjet decision", decision);
+
+
+    const reason = decision.reason as ArcjetRateLimitReason;
+    console.log("Arcjet reson", reason);
+
+    if (reason?.remaining == 0) {
+      return NextResponse.json({
+        resp: "You have utilised all Credit for today",
+        ui: "limit",
+      });
+    }
+
+
+    // ---------------------
 
     // ----------------- Prompt Template -----------------
     const chatPrompt = ChatPromptTemplate.fromMessages([

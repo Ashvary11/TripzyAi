@@ -1,5 +1,5 @@
 import React from "react";
-import { Earth, Globe2, Landmark, Plane} from "lucide-react";
+import { Earth, Globe2, Landmark, Plane } from "lucide-react";
 function EmptyBoxState({ onSelectOption }: any) {
   const suggestions = [
     {
@@ -18,9 +18,10 @@ function EmptyBoxState({ onSelectOption }: any) {
       title: "Adventure Destination",
       icon: <Earth className="text-green-400 h-5 w-5" />,
     },
+
   ];
   return (
-    <div className="mt-10 px-4">
+    <div className="mt-10 px-4 ">
       <section className="mx-auto max-w-3xl text-center">
         <h1 className="font-bold text-3xl sm:text-4xl leading-tight">
           Plan your next <span className="text-primary">Adventure</span> with{" "}
@@ -33,8 +34,8 @@ function EmptyBoxState({ onSelectOption }: any) {
           the details so the journey stays front and center.
         </p>
 
-  
-    
+
+
         <div className="flex flex-col gap-5">
           {suggestions.map((suggestion, index) => {
             return (

@@ -66,7 +66,7 @@ function ChatBox() {
   const [isFinal, setIsFinal] = useState<boolean>(false);
   const [tripDetail, setTripDetails] = useState<TripInfo>();
   const { setTrip } = useTrip();
-
+  const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let storedId = localStorage.getItem("trip_session_id");
@@ -76,7 +76,9 @@ function ChatBox() {
     }
     setSessionId(storedId);
   }, []);
-
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
   const onSend = useCallback(
     async (inputText?: string) => {
       const textToSend = inputText ?? userInput; // if provided, use it directly
@@ -158,7 +160,8 @@ function ChatBox() {
           }}
         />
       );
-    } else if (ui == "final") {
+    }
+    else if (ui == "final") {
       return (
         <FinalTripUi
           viewTrip={() => {
@@ -166,6 +169,35 @@ function ChatBox() {
           }}
           disable={!tripDetail}
         />
+      );
+    }
+    else if (ui == "limit") {
+      return (
+        <div className="flex justify-center items-center min-h-[60vh]">
+          <div className="max-w-md w-full bg-white p-6 rounded-2xl shadow-lg text-center">
+            <div className="flex justify-center mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-10 h-10 text-yellow-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <h1 className="text-xl font-semibold mb-2">Daily Limit Reached</h1>
+            <p className="text-sm text-gray-600">
+              You’ve used up all your credits for today.
+              Please try again tomorrow.
+            </p>
+          </div>
+        </div>
       );
     }
     return null;
@@ -185,12 +217,12 @@ function ChatBox() {
     }
   }, [isFinal, userInput, onSend]);
   return (
-    <div className="h-[80vh] flex flex-col">
+    <div className={`h-[80vh] flex flex-col${isFinal ? "" : ""} `}>
       {messages?.length == 0 && (
         <EmptyBoxState
           onSelectOption={(text: any) => {
             setUserInput(text);
-            onSend();
+            onSend(text);
           }}
         />
       )}
@@ -201,13 +233,13 @@ function ChatBox() {
         {messages.map((msg: Message, i) =>
           msg.role == "user" ? (
             <div className="flex justify-end mt-2" key={i}>
-              <div className="max-w-lg bg-primary  text-white px-4 py-2 rounded-lg ">
+              <div className="max-w-lg bg-primary  text-white px-4 py-2 rounded-lg " ref={messagesEndRef}>
                 {msg.content}
               </div>
             </div>
           ) : (
             <div className="flex justify-start mt-2" key={i}>
-              <div className="max-w-lg bg-gray-100  text-black px-4 py-2 rounded-lg ">
+              <div className="max-w-lg bg-gray-100  text-black px-4 py-2 rounded-lg " ref={messagesEndRef}>
                 {msg.content}
                 {RenderGenerativeUi(msg.ui ?? "")}
               </div>
@@ -232,11 +264,20 @@ function ChatBox() {
               className="w-full h-20 border-none focus-visible:ring-0 shadow-none resize-none"
               onChange={(e) => setUserInput(e.target.value)}
               value={userInput}
+              disabled=
+              {isFinal}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  onSend();
+                }
+              }}
             />
             <Button
               size={"icon"}
               onClick={() => onSend()}
               className="bottom-3 right-3 absolute cursor-pointer"
+              disabled={isFinal}
             >
               <Send className="h-4 w-4" />
             </Button>

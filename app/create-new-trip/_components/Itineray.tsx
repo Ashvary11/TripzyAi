@@ -117,10 +117,12 @@ export function Itineray() {
                 <Image
                   // src={"/hottel1.jpg"}
                   src={hotel?.hotel_image_url}
-                  alt="place-image"
+                  alt={hotel?.hotel_name
+}
                   width={400}
                   height={200}
                   className="rounded-2xl shadow object-cover mb-2"
+                  unoptimized
                 />
                 <h2 className="font-semibold text-lg">{hotel?.hotel_name}</h2>
                 <h2 className="text-gray-500">{hotel?.hotel_address}</h2>
@@ -166,7 +168,7 @@ export function Itineray() {
                     src={activity?.place_image_url}
                     width={400}
                     height={200}
-                    alt="day image"
+                    alt={activity?.place_name}
                     className="object-cover rounded-xl"
                     unoptimized   
                   />

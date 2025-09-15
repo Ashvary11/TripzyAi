@@ -26,7 +26,7 @@ function SelectDayUi({
           size="icon"
           variant="outline"
           onClick={decrease}
-          className="rounded-full w-10 h-10"
+          className="rounded-full w-10 h-10 cursor-pointer"
         >
           <Minus className="w-4 h-4" />
         </Button>
@@ -39,7 +39,7 @@ function SelectDayUi({
           size="icon"
           variant="outline"
           onClick={increase}
-          className="rounded-full w-10 h-10"
+          className="rounded-full w-10 h-10 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
         </Button>
@@ -48,7 +48,7 @@ function SelectDayUi({
       <div className="flex justify-center">
         <Button
           onClick={() => onSelectedOption(`${days} days`)}
-          className="rounded-xl px-6"
+          className="rounded-xl px-6 cursor-pointer"
         >
           Confirm
         </Button>
