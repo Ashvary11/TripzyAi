@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
         search: "",
       },
     ],
+    domains: [
+      "api.microlink.io", // Microlink Image Preview
+    ],
   },
 };
 
