@@ -45,7 +45,7 @@ export default function My_Trip() {
             {trips.map((trip, i) => (
               <div
                 key={trip._id}
-                className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5 flex flex-col"
+                className="bg-white rounded-2xl shadow hover:shadow-lg transition p-5 flex flex-col hover:bg-orange-100"
               >
                 {/* Header */}
                 <div className="flex-1">
@@ -92,8 +92,8 @@ export default function My_Trip() {
 
                 {/* Actions */}
                 <div className="mt-5 flex justify-between items-center">
-                  <Link href={`/my-trips/${trip._id}`}>
-                    <Button size="sm" variant="outline">
+                  <Link href={`/my-trips/${trip._id}`}   >
+                    <Button size="sm" variant="outline" className="cursor-pointer">
                       View Details
                     </Button>
                   </Link>

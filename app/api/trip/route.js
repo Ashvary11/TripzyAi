@@ -1,52 +1,8 @@
 import connectToDb from "../../../lib/dbConfig";
 import { currentUser } from "@clerk/nextjs/server";
- 
 import Trip from "../../../models/TripModel";
 
-// export async function POST(req) {
-//   try {
-//     await connectToDb();
-//     const clerkUser = await currentUser();
-
-//     if (!clerkUser) {
-//       return new Response(JSON.stringify({ error: "Not authenticated" }), {
-//         status: 401,
-//       });
-//     }
-
-//     let user = await User.findOne({ clerkId: clerkUser.id });
-
-//     if (!user) {
-//       user = await User.create({
-//         clerkId: clerkUser.id,
-//         name: clerkUser.fullName,
-//         email: clerkUser.emailAddresses[0]?.emailAddress,
-//         imageUrl: clerkUser.imageUrl,
-//       });
-//     }
-
-//     const body = await req.json();
-
-//     const newTrip = await Trip.create({
-//       userId: clerkUser.id, // link trip to Clerk user
-//       trip_plan: body.trip_plan,
-//     });
-
-//     return new Response(
-//       JSON.stringify({
-//         message: "Trip saved successfully",
-//         user: user,
-//         trip: newTrip,
-//       }),
-//       { status: 201 }
-//     );
-//   } catch (err) {
-//     return new Response(JSON.stringify({ error: err.message }), {
-//       status: 500,
-//     });
-//   }
-// }
-
+ 
 export async function GET() {
   try {
     await connectToDb();
