@@ -13,8 +13,8 @@ export async function GET() {
         status: 401,
       });
     }
-
-    const trips = await Trip.find({ userId: clerkUser.id });
+    
+    const trips = await Trip.find({ userId: clerkUser.id }).sort({ createdAt: -1 }).lean();
     // const trips = await Trip.find({
     //   userId: "user_3209fVYxW0tvYdnMfxvatMB9aNa",
     // });

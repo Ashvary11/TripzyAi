@@ -35,6 +35,7 @@ export default async function createAndSaveTrip(data) {
       message: "Trip saved successfully",
       user: user,
       trip: newTrip,
+      // tripId: newTrip._id.toString(),
     };
   } catch (err) {
     return { error: err.message };

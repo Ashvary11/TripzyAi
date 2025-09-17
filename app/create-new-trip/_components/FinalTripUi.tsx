@@ -1,10 +1,34 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Globe2, GlobeLock, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 function FinalTripUi({ viewTrip, disable }: any) {
+  const router = useRouter();
+ const [tripId,setTripId]=useState("");
+
+  const handleViewTrip = () => {
+    console.log("handleViewTrip");
+    router.push(`/my-trips/${tripId}`);
+  };
+
+  useEffect(() => {
+    const fetchLastTrip = async () => {
+      try {
+        const { data } = await axios.get("/api/trip/last");
+        setTripId(data._id)
+        console.log("Data from final trip component:", data);
+      } catch (err) {
+        console.error("Failed to fetch last trip:", err);
+      }
+    };
+
+    fetchLastTrip();
+  }, [disable]);
   return (
     <div className="flex flex-col items-center justify-center gap-4 p-6 border rounded-2xl max-w-md mx-auto text-center">
       {disable ? (
@@ -20,13 +44,22 @@ function FinalTripUi({ viewTrip, disable }: any) {
           <span> Trip Created</span>
         )}
       </h2>
-      <p className="text-sm text-gray-600">
-        Gathering best destinations, activities, and travel details for you.
-      </p>
+
+      {disable ? (
+        <p className="text-sm text-gray-600">
+          Gathering best destinations, activities, and travel details for you.
+        </p>
+      ) : (
+        <p>{`Tripzy has finished planning.Let’s explore your adventure.`}</p>
+      )}
       <Button
         disabled={disable}
-        onClick={viewTrip}
-        className="w-full rounded-xl cursor-pointer"
+        className={`w-full rounded-xl ${
+          disable ? "cursor-not-allowed" : "cursor-pointer"
+        }`}
+        onClick={() => {
+          if (!disable) handleViewTrip();
+        }}
       >
         View Trip
       </Button>

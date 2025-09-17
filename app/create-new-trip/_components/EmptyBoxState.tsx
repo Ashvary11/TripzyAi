@@ -1,5 +1,6 @@
 import React from "react";
 import { Earth, Globe2, Landmark, Plane } from "lucide-react";
+import FinalTripUi from "./FinalTripUi";
 function EmptyBoxState({ onSelectOption }: any) {
   const suggestions = [
     {
@@ -18,7 +19,6 @@ function EmptyBoxState({ onSelectOption }: any) {
       title: "Adventure Destination",
       icon: <Earth className="text-green-400 h-5 w-5" />,
     },
-
   ];
   return (
     <div className="mt-10 px-4 ">
@@ -34,8 +34,6 @@ function EmptyBoxState({ onSelectOption }: any) {
           the details so the journey stays front and center.
         </p>
 
-
-
         <div className="flex flex-col gap-5">
           {suggestions.map((suggestion, index) => {
             return (
@@ -45,10 +43,15 @@ function EmptyBoxState({ onSelectOption }: any) {
                 className="flex  items-center gap-2 border rounded-full p-2 cursor-pointer hover:bg-primary"
               >
                 {suggestion.icon}
-                <h2 className="text-sm">{suggestion.title}</h2>
+
+                <h2 className="text-sm hover:text-white font-semibold">
+                  {suggestion.title}
+                </h2>
               </div>
             );
           })}
+
+          {/* <FinalTripUi disable={false}/> */}
         </div>
       </section>
     </div>

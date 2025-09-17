@@ -1,7 +1,6 @@
-
+import Footer from "./_components/Footer";
 import Hero from "./_components/Hero";
-import { PopularCityList } from "./_components/PopularCityList";
-
+// import { PopularCityList } from "./_components/PopularCityList";
 
 export const metadata = {
   title: "Tripzy-Ai",
@@ -11,7 +10,8 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      <PopularCityList />
+      <Footer />
+      {/* <PopularCityList /> */}
     </div>
   );
 }

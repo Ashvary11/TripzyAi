@@ -29,7 +29,7 @@ export type Activity = {
   ticket_pricing: string;
   time_travel_each_location: string;
   best_time_to_visit: string;
-  place_name: string
+  place_name: string;
 };
 
 export type Itinerary = {
@@ -62,6 +62,7 @@ function ChatBox() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState<string>("");
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [tripId, setTripId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [isFinal, setIsFinal] = useState<boolean>(false);
   const [tripDetail, setTripDetails] = useState<TripInfo>();
@@ -115,12 +116,15 @@ function ChatBox() {
           }
         }
         if (result?.data?.trip_plan) {
-          console.log(
-            "i am final trip_plan  response :",
-            result?.data?.trip_plan
-          );
+          // console.log(
+          //   "i am final trip_plan  response :",
+          //   result?.data?.trip_plan
+          // );
+          console.log("i am full data  :", result?.data);
+
           setTripDetails(result?.data?.trip_plan);
           setTrip(result.data.trip_plan);
+          
         }
       } catch (err) {
         console.error("Error from API:", err);
@@ -160,18 +164,16 @@ function ChatBox() {
           }}
         />
       );
-    }
-    else if (ui == "final") {
+    } else if (ui == "final") {
       return (
         <FinalTripUi
           viewTrip={() => {
-            console.log("Trip viewed ✅");
+            console.log("Trip viewed ✅", "tripid will be pass");
           }}
           disable={!tripDetail}
         />
       );
-    }
-    else if (ui == "limit") {
+    } else if (ui == "limit") {
       return (
         <div className="flex justify-center items-center min-h-[60vh]">
           <div className="max-w-md w-full bg-white p-6 rounded-2xl shadow-lg text-center">
@@ -193,8 +195,8 @@ function ChatBox() {
             </div>
             <h1 className="text-xl font-semibold mb-2">Daily Limit Reached</h1>
             <p className="text-sm text-gray-600">
-              You’ve used up all your credits for today.
-              Please try again tomorrow.
+              You’ve used up all your credits for today. Please try again
+              tomorrow.
             </p>
           </div>
         </div>
@@ -233,13 +235,19 @@ function ChatBox() {
         {messages.map((msg: Message, i) =>
           msg.role == "user" ? (
             <div className="flex justify-end mt-2" key={i}>
-              <div className="max-w-lg bg-primary  text-white px-4 py-2 rounded-lg " ref={messagesEndRef}>
+              <div
+                className="max-w-lg bg-primary  text-white px-4 py-2 rounded-lg "
+                ref={messagesEndRef}
+              >
                 {msg.content}
               </div>
             </div>
           ) : (
             <div className="flex justify-start mt-2" key={i}>
-              <div className="max-w-lg bg-gray-100  text-black px-4 py-2 rounded-lg " ref={messagesEndRef}>
+              <div
+                className="max-w-lg bg-gray-100  text-black px-4 py-2 rounded-lg "
+                ref={messagesEndRef}
+              >
                 {msg.content}
                 {RenderGenerativeUi(msg.ui ?? "")}
               </div>
@@ -264,8 +272,7 @@ function ChatBox() {
               className="w-full h-20 border-none focus-visible:ring-0 shadow-none resize-none"
               onChange={(e) => setUserInput(e.target.value)}
               value={userInput}
-              disabled=
-              {isFinal}
+              disabled={isFinal}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();

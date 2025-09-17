@@ -41,21 +41,21 @@ export const DraggableCardBody = ({
 
   const rotateX = useSpring(
     useTransform(mouseY, [-300, 300], [25, -25]),
-    springConfig,
+    springConfig
   );
   const rotateY = useSpring(
     useTransform(mouseX, [-300, 300], [-25, 25]),
-    springConfig,
+    springConfig
   );
 
   const opacity = useSpring(
     useTransform(mouseX, [-300, 0, 300], [0.8, 1, 0.8]),
-    springConfig,
+    springConfig
   );
 
   const glareOpacity = useSpring(
     useTransform(mouseX, [-300, 0, 300], [0.2, 0, 0.2]),
-    springConfig,
+    springConfig
   );
 
   useEffect(() => {
@@ -123,33 +123,52 @@ export const DraggableCardBody = ({
             ...springConfig,
           },
         });
-        const currentVelocityX = velocityX.get();
-        const currentVelocityY = velocityY.get();
+        // const currentVelocityX = velocityX.get();
+        // const currentVelocityY = velocityY.get();
 
-        const velocityMagnitude = Math.sqrt(
-          currentVelocityX * currentVelocityX +
-            currentVelocityY * currentVelocityY,
+        // const velocityMagnitude = Math.sqrt(
+        //   currentVelocityX * currentVelocityX +
+        //     currentVelocityY * currentVelocityY,
+        // );
+        // const bounce = Math.min(0.8, velocityMagnitude / 1000);
+
+        // animate(info.point.x, info.point.x + currentVelocityX * 0.3, {
+        //   duration: 0.8,
+        //   ease: [0.2, 0, 0, 1],
+        //   bounce,
+        //   type: "spring",
+        //   stiffness: 50,
+        //   damping: 15,
+        //   mass: 0.8,
+        // });
+
+        // animate(info.point.y, info.point.y + currentVelocityY * 0.3, {
+        //   duration: 0.8,
+        //   ease: [0.2, 0, 0, 1],
+        //   bounce,
+        //   type: "spring",
+        //   stiffness: 50,
+        //   damping: 15,
+        //   mass: 0.8,
+        // });
+        // Clamp positions to constraints
+        const clampedX = Math.max(
+          constraints.left,
+          Math.min(constraints.right, mouseX.get())
         );
-        const bounce = Math.min(0.8, velocityMagnitude / 1000);
-
-        animate(info.point.x, info.point.x + currentVelocityX * 0.3, {
-          duration: 0.8,
-          ease: [0.2, 0, 0, 1],
-          bounce,
+        const clampedY = Math.max(
+          constraints.top,
+          Math.min(constraints.bottom, mouseY.get())
+        );
+        animate(mouseX, clampedX, {
           type: "spring",
-          stiffness: 50,
-          damping: 15,
-          mass: 0.8,
+          stiffness: 120,
+          damping: 20,
         });
-
-        animate(info.point.y, info.point.y + currentVelocityY * 0.3, {
-          duration: 0.8,
-          ease: [0.2, 0, 0, 1],
-          bounce,
+        animate(mouseY, clampedY, {
           type: "spring",
-          stiffness: 50,
-          damping: 15,
-          mass: 0.8,
+          stiffness: 120,
+          damping: 20,
         });
       }}
       style={{
@@ -164,7 +183,7 @@ export const DraggableCardBody = ({
       onMouseLeave={handleMouseLeave}
       className={cn(
         "relative min-h-96 w-80 overflow-hidden rounded-md bg-neutral-100 p-6 shadow-2xl transform-3d dark:bg-neutral-900",
-        className,
+        className
       )}
     >
       {children}

@@ -15,6 +15,7 @@ import axios from "axios";
 
 import { TripInfo } from "@/app/create-new-trip/_components/ChatBox";
 import { IconDirection } from "@tabler/icons-react";
+import { LoaderOne } from "@/components/ui/loader";
 
 type TripIdProps = {
   params: Promise<{
@@ -34,7 +35,6 @@ export default function TripDetailPage({ params }: TripIdProps) {
         const res = await axios.get(`/api/trip/${tripId}`);
         setData(res.data.trip_plan);
         console.log(res.data.trip_plan);
-
       } catch (err) {
         console.error("Failed to fetch trip", err);
       }
@@ -42,7 +42,11 @@ export default function TripDetailPage({ params }: TripIdProps) {
     fn();
   }, [tripId]);
   if (!data) {
-    return <p className="text-center mt-10">Loading trip details...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderOne />
+      </div>
+    );
   }
 
   return (
@@ -82,7 +86,7 @@ export default function TripDetailPage({ params }: TripIdProps) {
                   src={hotel.hotel_image_url}
                   alt={hotel.hotel_name}
                   className="w-full h-40 object-cover rounded-t-xl"
-                  title="view more.."
+                  title="view images.."
                 />
               </Link>
 
@@ -104,16 +108,17 @@ export default function TripDetailPage({ params }: TripIdProps) {
                     target="_blank"
                     className="text-sm text-teal-600 hover:underline flex items-center gap-1 font-bold"
                   >
-                    Locate  <MapPin size={13} color="red" />
+                    Locate <MapPin size={13} color="red" />
                   </Link>
 
-                  <LinkPreview url={`https://www.google.com/maps/place?q=${hotel.hotel_address}`}>
+                  <LinkPreview
+                    url={`https://www.google.com/maps/place?q=${hotel.hotel_address}`}
+                  >
                     <span className="text-xs text-gray-600 flex gap-1 items-center">
                       {hotel.hotel_address}
                     </span>
                   </LinkPreview>
                 </div>
-
 
                 {/* <LinkPreview url={`https://www.google.com/maps/place?q=${hotel.hotel_address}`}>
                                     <p className="text-xs text-gray-600 mt-1 flex gap-2 items-center">
@@ -161,9 +166,8 @@ export default function TripDetailPage({ params }: TripIdProps) {
                             target="_blank"
                             className="text-sm text-teal-600  flex items-center "
                           >
-                            <strong className="hover:underline">
-                              Find
-                            </strong>   <span  >📍</span>
+                            <strong className="hover:underline">Find</strong>{" "}
+                            <span>📍</span>
                           </Link>
 
                           <LinkPreview
@@ -174,8 +178,6 @@ export default function TripDetailPage({ params }: TripIdProps) {
                             </p>
                           </LinkPreview>
                         </div>
-
-
 
                         <p className="text-xs">🎟 {act.ticket_pricing}</p>
                         <p className="text-xs">

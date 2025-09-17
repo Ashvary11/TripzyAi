@@ -1,19 +1,20 @@
-import arcjet, { tokenBucket } from "@arcjet/next";
+// import arcjet, { tokenBucket } from "@arcjet/next";
+import { aj } from "@/lib/arject";
 import { NextResponse } from "next/server";
 
-export const aj = arcjet({
-  key: process.env.ARCJET_KEY!, // Get your site key from https://app.arcjet.com
-  rules: [
-    // Create a token bucket rate limit. Other algorithms are supported.
-    tokenBucket({
-      mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
-      characteristics: ["userId"], // track requests by a custom user ID
-      refillRate: 100, // refill 100 tokens per interval
-      interval: 60 * 60 * 24, // refill every 24 hrs that in seconds
-      capacity: 100, // bucket maximum capacity of 100 tokens
-    }),
-  ],
-});
+// export const aj = arcjet({
+//   key: process.env.ARCJET_KEY!, // Get your site key from https://app.arcjet.com
+//   rules: [
+//     // Create a token bucket rate limit. Other algorithms are supported.
+//     tokenBucket({
+//       mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
+//       characteristics: ["userId"], // track requests by a custom user ID
+//       refillRate: 100, // refill 100 tokens per interval
+//       interval: 60 * 60 * 24, // refill every 24 hrs that in seconds
+//       capacity: 100, // bucket maximum capacity of 100 tokens
+//     }),
+//   ],
+// });
 
 export async function GET(req: Request) {
   const userId = "user123"; // Replace with your authenticated user ID

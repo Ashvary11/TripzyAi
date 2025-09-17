@@ -4,10 +4,11 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnableWithMessageHistory } from "@langchain/core/runnables";
 import { InMemoryChatMessageHistory } from "@langchain/core/chat_history";
 import { currentUser } from "@clerk/nextjs/server";
-import { aj } from "../arcjet/route";
+// import { aj } from "../arcjet/route";
 import { ArcjetRateLimitReason } from "@arcjet/next";
 import axios from "axios";
 import createAndSaveTrip from "../trip/createAndSave.js";
+import { aj } from "@/lib/arject";
 
 // ----------------- Memory Setup -----------------
 const messageHistories = new Map<string, InMemoryChatMessageHistory>();
@@ -118,7 +119,6 @@ const llm = new ChatGoogleGenerativeAI({
 
 // ----------------- API Route -----------------
 export async function POST(req: NextRequest) {
-
   try {
     const { messages, sessionId, isFinal } = await req.json();
     console.log("backend", messages, sessionId);
@@ -130,10 +130,12 @@ export async function POST(req: NextRequest) {
       );
     }
     // ------ rate limiting
-    const user = await currentUser()
-    const decision = await aj.protect(req, { userId: user?.primaryEmailAddress?.emailAddress ?? "", requested: isFinal ? 1 : 0 }); // Deduct 1 tokens from the bucket
+    const user = await currentUser();
+    const decision = await aj.protect(req, {
+      userId: user?.primaryEmailAddress?.emailAddress ?? "",
+      requested: isFinal ? 1 : 0,
+    }); // Deduct 1 tokens from the bucket
     // console.log("Arcjet decision", decision);
-
 
     const reason = decision.reason as ArcjetRateLimitReason;
     console.log("Arcjet reson", reason);
@@ -144,7 +146,6 @@ export async function POST(req: NextRequest) {
         ui: "limit",
       });
     }
-
 
     // ---------------------
 
@@ -210,17 +211,17 @@ export async function POST(req: NextRequest) {
     }
     // console.log("messagehistry Obj:--", messageHistories);
     console.log("backed_parsed:--", parsed);
-    // 
+    //
     if (parsed.trip_plan) {
       try {
-        await createAndSaveTrip(parsed.trip_plan)
-        console.log("axiosDataTest", parsed.trip_plan);
+        const result = await createAndSaveTrip(parsed.trip_plan);
+        console.log("Saved trip ID:", result);
+        // console.log("Saved trip ID:", result.tripId);
       } catch (err) {
         console.error("Failed to save trip", err);
       }
     }
 
-    // 
     return NextResponse.json(parsed);
   } catch (error) {
     console.error(error);
