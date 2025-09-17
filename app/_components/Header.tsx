@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/ui/darkMode";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
@@ -46,6 +47,8 @@ function Header() {
             </Link>
           );
         })}
+
+        <ModeToggle />
       </div>
       {/* Get Started Button */}
       <div>
@@ -53,13 +56,14 @@ function Header() {
           <SignInButton mode="modal">
             <Button>Get Started</Button>
           </SignInButton>
-        ) : (
-          path == "/my-trips" ? <Link href={"/create-new-trip"}>
+        ) : path == "/my-trips" ? (
+          <Link href={"/create-new-trip"}>
             <Button className="cursor-pointer">Create-New-Trip</Button>
-          </Link> : <Link href={"/my-trips"}>
+          </Link>
+        ) : (
+          <Link href={"/my-trips"}>
             <Button className="cursor-pointer">My-Trips</Button>
           </Link>
-
         )}
       </div>
     </div>

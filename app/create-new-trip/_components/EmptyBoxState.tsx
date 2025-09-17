@@ -40,7 +40,7 @@ function EmptyBoxState({ onSelectOption }: any) {
               <div
                 key={index}
                 onClick={() => onSelectOption(suggestion.title)}
-                className="flex  items-center gap-2 border rounded-full p-2 cursor-pointer hover:bg-primary"
+                className="flex  items-center gap-2 border rounded-full p-2 cursor-pointer hover:bg-primary dark:hover:bg-gray-800 hover:text-white transition-colors "
               >
                 {suggestion.icon}
 

@@ -9,7 +9,7 @@ const TripSchema = new mongoose.Schema(
       duration: { type: String, required: true },
       origin: { type: String, required: true },
       budget: { type: String, required: true },
-      group_Size: { type: String, required: true },
+      group_size: { type: String, required: true },
 
       hotels: [
         {

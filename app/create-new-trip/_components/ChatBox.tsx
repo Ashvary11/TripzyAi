@@ -236,7 +236,7 @@ function ChatBox() {
           msg.role == "user" ? (
             <div className="flex justify-end mt-2" key={i}>
               <div
-                className="max-w-lg bg-primary  text-white px-4 py-2 rounded-lg "
+                className="max-w-lg bg-primary  text-white px-4 py-2 rounded-lg dark:bg-gray-800"
                 ref={messagesEndRef}
               >
                 {msg.content}
@@ -245,7 +245,7 @@ function ChatBox() {
           ) : (
             <div className="flex justify-start mt-2" key={i}>
               <div
-                className="max-w-lg bg-gray-100  text-black px-4 py-2 rounded-lg "
+                className="max-w-lg bg-gray-100  text-black px-4 py-2 rounded-lg dark:bg-gray-800 dark:text-white"
                 ref={messagesEndRef}
               >
                 {msg.content}
@@ -256,8 +256,8 @@ function ChatBox() {
         )}
         {loading && (
           <div className="flex justify-start mt-2">
-            <div className="max-w-lg bg-gray-100  text-black px-4 py-2 rounded-lg ">
-              {<Loader className="animate-spin" />}
+            <div className="max-w-lg bg-gray-100  text-black px-4 py-2 rounded-lg   dark:bg-gray-800">
+              {<Loader className="animate-spin dark:text-white" />}
             </div>
           </div>
         )}
@@ -283,7 +283,7 @@ function ChatBox() {
             <Button
               size={"icon"}
               onClick={() => onSend()}
-              className="bottom-3 right-3 absolute cursor-pointer"
+              className="bottom-4 right-4 absolute cursor-pointer hover:bg-primary hover:text-orange transition-colors"
               disabled={isFinal}
             >
               <Send className="h-4 w-4" />

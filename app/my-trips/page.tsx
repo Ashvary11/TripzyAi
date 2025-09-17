@@ -23,7 +23,7 @@ export default function My_Trip() {
       try {
         const res = await axios.get<{ trips: TripDocument[] }>("/api/trip");
         setTrips(res.data?.trips || []);
-         
+        console.log(res.data);
       } catch (err) {
         console.error("Error fetching trips", err);
       } finally {
@@ -41,20 +41,26 @@ export default function My_Trip() {
     );
 
   return (
-    <div className="container mx-auto px-4 py-10 flex flex-col items-center">
+    <div className="container mx-auto px-4 py-10 flex flex-col items-center ">
       {trips.length > 0 && (
-        <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
+        <h1 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">
           My Planned Trips
         </h1>
       )}
 
       {trips.length == 0 ? (
-        <div className="p-10 flex flex-col items-center text-center bg-gradient-to-br from-orange-100 via-yellow-50 to-white rounded-3xl shadow-lg max-w-md w-full border border-orange-200">
-          <div className="flex items-center justify-center w-16 h-16 rounded-full bg-orange-200 mb-6">
+        <div
+          className="  p-10 flex flex-col items-center text-center
+    bg-gradient-to-br from-orange-100 via-yellow-50 to-white
+    dark:from-gray-900 dark:via-gray-950 dark:to-black
+    rounded-3xl shadow-lg max-w-md w-full
+    border border-orange-200 dark:border-amber-100"
+        >
+          <div className="flex items-center justify-center w-16 h-16 rounded-full bg-orange-200 mb-6 ">
             <span className="text-3xl">🗺️</span>
           </div>
 
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">
+          <h2 className="text-xl font-semibold text-gray-800 mb-3 dark:text-white">
             No Trips Yet
           </h2>
 
@@ -73,20 +79,20 @@ export default function My_Trip() {
           {trips.map((trip) => (
             <div
               key={trip._id}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 flex flex-col hover:-translate-y-1 w-full max-w-md"
+              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 flex flex-col hover:-translate-y-1 w-full max-w-md dark:bg-gray-700 "
             >
               {/* Header */}
-              <div className="flex-1">
-                <h2 className="text-xl font-semibold text-gray-800">
+              <div className="flex-1 dark:text-white">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
                   {trip.trip_plan.origin} ➝ {trip.trip_plan.destination}
                 </h2>
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-sm text-gray-500 mt-2 dark:text-white ">
                   {trip.trip_plan.duration} | Budget:{" "}
-                  <span className="font-medium text-gray-700">
+                  <span className="font-medium text-gray-700 dark:text-white">
                     {trip.trip_plan.budget}
                   </span>
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-white">
                   Group: {trip.trip_plan.group_size}
                 </p>
               </div>
@@ -101,12 +107,12 @@ export default function My_Trip() {
                     {trip.trip_plan.hotels.map((hotel, idx) => (
                       <div
                         key={idx}
-                        className="min-w-[140px] rounded-xl border p-2 bg-gray-50 shadow-sm hover:shadow-md transition"
+                        className="min-w-[140px] rounded-xl border p-2 bg-gray-50 shadow-sm hover:shadow-md transition dark:bg-gray-600 dark:text-white "
                       >
                         <img
                           src={hotel.hotel_image_url}
                           alt={hotel.hotel_name}
-                          className="w-full h-24 object-cover rounded-lg" 
+                          className="w-full h-24 object-cover rounded-lg "
                         />
                         <p className="text-xs font-semibold mt-2 truncate">
                           {hotel.hotel_name}

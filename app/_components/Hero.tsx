@@ -55,7 +55,7 @@ function Hero() {
         </p>
 
         {/* Input Box */}
-        <div className="relative border rounded-2xl p-4 shadow-sm bg-white dark:bg-neutral-900">
+        <div className="relative border rounded-2xl p-4 shadow-sm bg-white dark:bg-gray-900">
           <Textarea
             placeholder="Create a trip from Paris to New York"
             className="w-full h-20 border-none focus-visible:ring-0 shadow-none resize-none bg-transparent"
@@ -63,9 +63,9 @@ function Hero() {
           <Button
             size="icon"
             onClick={onSend}
-            className="absolute bottom-3 right-3 rounded-full"
+            className="absolute bottom-3 right-3 rounded-full  cursor-pointer"
           >
-            <Send className="h-4 w-4" />
+            <Send className="h-4 w-4 " />
           </Button>
         </div>
 
@@ -74,7 +74,7 @@ function Hero() {
           {suggestions.map((s, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 border px-4 py-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition-colors"
+              className="flex items-center gap-2 border px-4 py-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition-colors dark:hover:bg-gray-800"
             >
               {s.icon}
               <span className="text-sm font-medium">{s.title}</span>
