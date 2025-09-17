@@ -4,9 +4,9 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnableWithMessageHistory } from "@langchain/core/runnables";
 import { InMemoryChatMessageHistory } from "@langchain/core/chat_history";
 import { currentUser } from "@clerk/nextjs/server";
-// import { aj } from "../arcjet/route";
+ 
 import { ArcjetRateLimitReason } from "@arcjet/next";
-import axios from "axios";
+ 
 import createAndSaveTrip from "../trip/createAndSave.js";
 import { aj } from "@/lib/arject";
 

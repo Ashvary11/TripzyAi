@@ -1,6 +1,6 @@
 import React from "react";
 import { Earth, Globe2, Landmark, Plane } from "lucide-react";
-import FinalTripUi from "./FinalTripUi";
+// import FinalTripUi from "./FinalTripUi";
 function EmptyBoxState({ onSelectOption }: any) {
   const suggestions = [
     {

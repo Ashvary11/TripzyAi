@@ -7,7 +7,7 @@ import {
   useSpring,
   useTransform,
   animate,
-  useVelocity,
+  // useVelocity,
   useAnimationControls,
 } from "motion/react";
 
@@ -30,8 +30,8 @@ export const DraggableCardBody = ({
   });
 
   // physics biatch
-  const velocityX = useVelocity(mouseX);
-  const velocityY = useVelocity(mouseY);
+  // const velocityX = useVelocity(mouseX);
+  // const velocityY = useVelocity(mouseY);
 
   const springConfig = {
     stiffness: 100,
@@ -112,7 +112,8 @@ export const DraggableCardBody = ({
       onDragStart={() => {
         document.body.style.cursor = "grabbing";
       }}
-      onDragEnd={(event, info) => {
+      // onDragEnd={(event, info) => {
+      onDragEnd={() => {
         document.body.style.cursor = "default";
 
         controls.start({

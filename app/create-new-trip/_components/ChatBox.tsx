@@ -62,7 +62,7 @@ function ChatBox() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState<string>("");
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [tripId, setTripId] = useState<string | null>(null);
+  // const [tripId, setTripId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [isFinal, setIsFinal] = useState<boolean>(false);
   const [tripDetail, setTripDetails] = useState<TripInfo>();
@@ -132,7 +132,7 @@ function ChatBox() {
         setLoading(false);
       }
     },
-    [userInput, sessionId, messages, isFinal]
+    [userInput, sessionId, messages, isFinal,setTrip]
   );
 
   const RenderGenerativeUi = (ui: string) => {

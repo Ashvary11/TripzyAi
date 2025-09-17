@@ -44,13 +44,13 @@ function Hero() {
       <div className="max-w-3xl w-full text-center space-y-8">
         {/* Heading */}
         <h1 className="text-2xl md:text-5xl font-bold leading-snug">
-          Hey 👋, I'm your personal{" "}
+          Hey 👋, I&apos; m your personal <br />
           <span className="text-primary text-3xl md:text-5xl">
             Trip Planner
           </span>
         </h1>
         <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
-          Tell me what you want, and I'll handle the rest: Flights, Hotels, and
+          Tell me what you want, and I will handle the rest: Flights, Hotels, and
           Trip Planning — everything in seconds.
         </p>
 

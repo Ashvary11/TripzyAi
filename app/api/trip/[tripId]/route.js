@@ -1,13 +1,11 @@
 import connectToDb from "../../../../lib/dbConfig";
-import { currentUser } from "@clerk/nextjs/server";
+// import { currentUser } from "@clerk/nextjs/server";
 import Trip from "../../../../models/TripModel";
 
 export async function GET(req, { params }) {
   try {
     await connectToDb();
-    const clerkUser = await currentUser();
-
-    
+    // const clerkUser = await currentUser();
     // if (!clerkUser) {
     //   return new Response(JSON.stringify({ error: "Not authenticated" }), {
     //     status: 401,

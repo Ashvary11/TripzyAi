@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { Globe2, GlobeLock, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+// import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-function FinalTripUi({ viewTrip, disable }: any) {
+function FinalTripUi({ disable }: any) {
   const router = useRouter();
  const [tripId,setTripId]=useState("");
 

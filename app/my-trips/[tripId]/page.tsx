@@ -14,7 +14,7 @@ import { LinkPreview } from "@/components/ui/link-preview";
 import axios from "axios";
 
 import { TripInfo } from "@/app/create-new-trip/_components/ChatBox";
-import { IconDirection } from "@tabler/icons-react";
+// import { IconDirection } from "@tabler/icons-react";
 import { LoaderOne } from "@/components/ui/loader";
 
 type TripIdProps = {

@@ -77,8 +77,8 @@ export function Itineray() {
         ...(trip_data?.itinerary || []).map((dayData, i) => ({
           title: `Day ${dayData?.day}`,
           content: (
-            <div>
-              <div>
+            <div key={i} >
+              
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   Best Time : {dayData?.best_time_to_visit}
                   {(dayData.activities || []).map((activity, i) => (
@@ -122,7 +122,7 @@ export function Itineray() {
                     </div>
                   ))}
                 </div>
-              </div>
+               
             </div>
           ),
         })),

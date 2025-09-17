@@ -2,7 +2,7 @@
 import { TripInfo } from "@/app/create-new-trip/_components/ChatBox";
 import { Calendar, PersonStanding, Wallet } from "lucide-react";
 import {
-  useMotionValueEvent,
+  // useMotionValueEvent,
   useScroll,
   useTransform,
   motion,

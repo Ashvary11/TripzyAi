@@ -5,6 +5,7 @@ import { TripInfo } from "../create-new-trip/_components/ChatBox";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { LoaderFive } from "@/components/ui/loader";
+// import Image from "next/image";
 
 type TripDocument = {
   _id: string;
@@ -105,7 +106,7 @@ export default function My_Trip() {
                         <img
                           src={hotel.hotel_image_url}
                           alt={hotel.hotel_name}
-                          className="w-full h-24 object-cover rounded-lg"
+                          className="w-full h-24 object-cover rounded-lg" 
                         />
                         <p className="text-xs font-semibold mt-2 truncate">
                           {hotel.hotel_name}
