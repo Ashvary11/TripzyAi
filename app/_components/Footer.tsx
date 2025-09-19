@@ -1,4 +1,5 @@
 // components/Footer.tsx
+'use client'
 export default function Footer() {
   return (
     <footer className="bg-gray-100 dark:bg-black border-t border-gray-200 dark:border-gray-800 ">

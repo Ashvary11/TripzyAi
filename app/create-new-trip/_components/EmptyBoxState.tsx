@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Earth, Globe2, Landmark, Plane } from "lucide-react";
 // import FinalTripUi from "./FinalTripUi";

@@ -70,6 +70,7 @@ function ChatBox() {
   const { setTrip } = useTrip();
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
+
   const title: string = searchParams.get("title") ?? "";
   console.log(title);
 
@@ -80,8 +81,9 @@ function ChatBox() {
       localStorage.setItem("trip_session_id", storedId);
     }
     setSessionId(storedId);
-    setUserInput(title); 
-  }, []);
+    setUserInput(title);
+  }, [title]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -136,7 +138,7 @@ function ChatBox() {
         setLoading(false);
       }
     },
-    [userInput, sessionId, messages, isFinal, setTrip,title]
+    [userInput, sessionId, messages, isFinal, setTrip]
   );
 
   const RenderGenerativeUi = (ui: string) => {
