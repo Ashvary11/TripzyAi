@@ -48,7 +48,7 @@ function Header() {
           );
         })}
 
-        <ModeToggle />
+        <ModeToggle/>
       </div>
       {/* Get Started Button */}
       <div>

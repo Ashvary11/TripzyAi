@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Earth, Globe2, Landmark, Plane, Send } from "lucide-react";
@@ -26,7 +26,7 @@ function Hero() {
       icon: <Earth className="text-green-400 h-5 w-5" />,
     },
   ];
-
+  const [input, setInput] = useState("");
   const { user } = useUser();
   const router = useRouter();
 
@@ -35,7 +35,8 @@ function Hero() {
       router.push("/sign-in");
       return;
     }
-    router.push("/create-new-trip");
+    router.push("/create-new-trip?title=" + input);
+    setInput("");
   };
 
   return (
@@ -46,12 +47,12 @@ function Hero() {
         <h1 className="text-2xl md:text-5xl font-bold leading-snug">
           Hey 👋, I&apos; m your personal <br />
           <span className="text-primary text-3xl md:text-5xl">
-            Trip Planner
+            Ai-Trip Planner
           </span>
         </h1>
         <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
-          Tell me what you want, and I will handle the rest: Flights, Hotels, and
-          Trip Planning — everything in seconds.
+          Tell me what you want, and I will handle the rest: Flights, Hotels,
+          and Trip Planning — everything in seconds.
         </p>
 
         {/* Input Box */}
@@ -59,14 +60,17 @@ function Hero() {
           <Textarea
             placeholder="Create a trip from Paris to New York"
             className="w-full h-20 border-none focus-visible:ring-0 shadow-none resize-none bg-transparent"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
           />
           <Button
-            size="icon"
+            // size="icon"
             onClick={onSend}
-            className="absolute bottom-3 right-3 rounded-full  cursor-pointer"
+            className="  px-2 py-2 absolute bottom-4 right-4 rounded-2xl  cursor-pointer"
           >
-            <Send className="h-4 w-4 " />
+             Start Planning →
           </Button>
+          
         </div>
 
         {/* Suggestions */}
@@ -77,7 +81,15 @@ function Hero() {
               className="flex items-center gap-2 border px-4 py-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition-colors dark:hover:bg-gray-800"
             >
               {s.icon}
-              <span className="text-sm font-medium">{s.title}</span>
+              <span
+                className="text-sm font-medium"
+                onClick={() => {
+                  setInput(s.title);
+                  console.log(s.title);
+                }}
+              >
+                {s.title}
+              </span>
             </div>
           ))}
         </div>

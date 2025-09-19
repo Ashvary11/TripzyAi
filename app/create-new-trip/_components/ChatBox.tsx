@@ -11,6 +11,7 @@ import BudgetUi from "./BudgetUi";
 import SelectDayUi from "./SelectDayUi";
 import FinalTripUi from "./FinalTripUi";
 import { useTrip } from "@/app/TripContext";
+import { useSearchParams } from "next/navigation";
 
 type Message = {
   role: string;
@@ -68,6 +69,9 @@ function ChatBox() {
   const [tripDetail, setTripDetails] = useState<TripInfo>();
   const { setTrip } = useTrip();
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const title: string = searchParams.get("title") ?? "";
+  console.log(title);
 
   useEffect(() => {
     let storedId = localStorage.getItem("trip_session_id");
@@ -76,6 +80,7 @@ function ChatBox() {
       localStorage.setItem("trip_session_id", storedId);
     }
     setSessionId(storedId);
+    setUserInput(title); 
   }, []);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -124,7 +129,6 @@ function ChatBox() {
 
           setTripDetails(result?.data?.trip_plan);
           setTrip(result.data.trip_plan);
-          
         }
       } catch (err) {
         console.error("Error from API:", err);
@@ -132,7 +136,7 @@ function ChatBox() {
         setLoading(false);
       }
     },
-    [userInput, sessionId, messages, isFinal,setTrip]
+    [userInput, sessionId, messages, isFinal, setTrip,title]
   );
 
   const RenderGenerativeUi = (ui: string) => {

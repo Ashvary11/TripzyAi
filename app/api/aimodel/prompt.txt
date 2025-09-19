@@ -47,7 +47,7 @@ Schema:
     "duration": string,
     "origin": string,
     "budget": string,
-    "group_Size": string,
+    "group_size": string,
     "hotels": [
       {{
         "hotel_name": string,
@@ -88,6 +88,7 @@ Schema:
 }}
   
 Important:
+- If the origin or destination is in India, all amounts must be shown in Indian Rupees (₹).
 - Use only **direct HTTPS links from Unsplash, Wikimedia Commons, or official hotel/tourism websites** for hotel_image_url and place_image_url.
 - Do not use example.com, Googleusercontent, or placeholders. The URL must point directly to an image file. 
 - After collecting all required details, always return with "ui": "final".

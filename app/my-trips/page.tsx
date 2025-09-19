@@ -5,6 +5,7 @@ import { TripInfo } from "../create-new-trip/_components/ChatBox";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { LoaderFive } from "@/components/ui/loader";
+import RemoveTrip from "@/components/RemoveTrip";
 // import Image from "next/image";
 
 type TripDocument = {
@@ -79,8 +80,17 @@ export default function My_Trip() {
           {trips.map((trip) => (
             <div
               key={trip._id}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 flex flex-col hover:-translate-y-1 w-full max-w-md dark:bg-gray-700 "
+              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 flex flex-col hover:-translate-y-1 w-full max-w-md dark:bg-gray-700 relative"
+              //   className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 flex flex-col hover:-translate-y-1 w-full max-w-md dark:bg-gray-700 relative"
             >
+              <div className="absolute top-3 right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <RemoveTrip
+                  tripId={trip._id}
+                  onDeleted={(deletedId) =>
+                    setTrips((prev) => prev.filter((t) => t._id !== deletedId))
+                  }
+                />
+              </div>
               {/* Header */}
               <div className="flex-1 dark:text-white">
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
@@ -137,6 +147,7 @@ export default function My_Trip() {
                     View Trip
                   </Button>
                 </Link>
+
                 <p className="text-xs text-gray-400">
                   Created: {new Date(trip.createdAt).toLocaleDateString()}
                 </p>
