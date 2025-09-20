@@ -1,5 +1,5 @@
 "use client";
-import { TripInfo } from "@/app/create-new-trip/_components/ChatBox";
+import { TripInfo } from "@/app/(trips)/create/_chatbot_components/ChatBox";
 import { Calendar, PersonStanding, Wallet } from "lucide-react";
 import {
   // useMotionValueEvent,

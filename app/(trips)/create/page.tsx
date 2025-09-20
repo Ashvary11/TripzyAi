@@ -1,7 +1,7 @@
 "use client";
 import React, { Suspense } from "react";
-import ChatBox from "./_components/ChatBox";
-import { Itineray } from "./_components/Itineray";
+import ChatBox from "./_chatbot_components/ChatBox";
+import { Itineray } from "./_chatbot_components/Itineray";
 import { TripProvider } from "../TripContext";
 
 export default function CreateNewTrip() {

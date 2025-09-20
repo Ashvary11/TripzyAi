@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/darkMode";
-import { SignInButton, useUser } from "@clerk/nextjs";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,7 +28,7 @@ function Header() {
   // console.log(path);
 
   return (
-    <div className="flex justify-between items-center p-4">
+    <div className="flex justify-between items-center p-4 sticky top-0 z-20 bg-white/80 backdrop-blur-md shadow-md mt-1">
       {/* //Logo// */}
       <Link href={"/"}>
         <div className="flex gap-2 items-center">
@@ -48,7 +48,7 @@ function Header() {
           );
         })}
 
-        <ModeToggle/>
+        <ModeToggle />
       </div>
       {/* Get Started Button */}
       <div>
@@ -56,14 +56,20 @@ function Header() {
           <SignInButton mode="modal">
             <Button>Get Started</Button>
           </SignInButton>
-        ) : path == "/my-trips" ? (
-          <Link href={"/create-new-trip"}>
+        ) : path == "/my" ? (
+          <Link href={"/create"}>
             <Button className="cursor-pointer">Create-New-Trip</Button>
           </Link>
         ) : (
-          <Link href={"/my-trips"}>
-            <Button className="cursor-pointer">My-Trips</Button>
-          </Link>
+          <div className="flex gap-5 items-center">
+            <div>
+              <UserButton />
+            </div>
+
+            <Link href={"/my"}>
+              <Button className="cursor-pointer">My-Trips</Button>
+            </Link>
+          </div>
         )}
       </div>
     </div>

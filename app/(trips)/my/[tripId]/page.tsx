@@ -13,7 +13,7 @@ import Link from "next/link";
 import { LinkPreview } from "@/components/ui/link-preview";
 import axios from "axios";
 
-import { TripInfo } from "@/app/create-new-trip/_components/ChatBox";
+import { TripInfo } from "@/app/(trips)/create/_chatbot_components/ChatBox";
 // import { IconDirection } from "@tabler/icons-react";
 import { LoaderOne } from "@/components/ui/loader";
 

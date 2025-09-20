@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Earth, Globe2, Landmark, Plane, Send } from "lucide-react";
+import { Earth, Globe2, Landmark, Plane  } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import DraggableCards from "@/components/DraggableCards";
@@ -35,7 +35,7 @@ function Hero() {
       router.push("/sign-in");
       return;
     }
-    router.push("/create-new-trip?title=" + input);
+    router.push("/create?title=" + input);
     setInput("");
   };
 

@@ -1,5 +1,5 @@
 import Footer from "./_components/Footer";
-import Hero from "./_components/Hero";
+import Hero from "./_components/HeroSection";
 // import { PopularCityList } from "./_components/PopularCityList";
 
 export const metadata = {

@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IconBrandGoogleMaps } from "@tabler/icons-react";
-import { useTrip } from "@/app/TripContext";
+import { useTrip } from "@/app/(trips)/TripContext";
 
 import { GlobeDemo } from "@/components/Globe";
 

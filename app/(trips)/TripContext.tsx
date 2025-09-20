@@ -1,8 +1,7 @@
 // TripContext.tsx
 "use client";
 import { createContext, useContext, useState, ReactNode } from "react";
-import type { TripInfo } from "./create-new-trip/_components/ChatBox";
- 
+import type { TripInfo } from "./create/_chatbot_components/ChatBox";
 
 type TripContextType = {
   trip_data: TripInfo | null;

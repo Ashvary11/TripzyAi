@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { TripInfo } from "../create-new-trip/_components/ChatBox";
+import { TripInfo } from "../create/_chatbot_components/ChatBox";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { LoaderFive } from "@/components/ui/loader";
@@ -138,7 +138,7 @@ export default function My_Trip() {
 
               {/* Actions */}
               <div className="mt-6 flex justify-between items-center border-t pt-4">
-                <Link href={`/my-trips/${trip._id}`}>
+                <Link href={`/my/${trip._id}`}>
                   <Button
                     size="sm"
                     variant="outline"

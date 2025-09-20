@@ -10,7 +10,7 @@ import GroupSize from "./GroupSize";
 import BudgetUi from "./BudgetUi";
 import SelectDayUi from "./SelectDayUi";
 import FinalTripUi from "./FinalTripUi";
-import { useTrip } from "@/app/TripContext";
+import { useTrip } from "@/app/(trips)/TripContext";
 import { useSearchParams } from "next/navigation";
 
 type Message = {
@@ -101,7 +101,7 @@ function ChatBox() {
       setUserInput("");
 
       try {
-        const result = await axios.post("/api/aimodel", {
+        const result = await axios.post("/api/ai", {
           messages: [...messages, newMessage],
           sessionId,
           isFinal,
