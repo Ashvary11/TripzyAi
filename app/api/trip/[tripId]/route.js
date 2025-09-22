@@ -12,9 +12,9 @@ export async function GET(req, { params }) {
     //   });
     // }
 
-    const { tripId } = params;  
+    const { tripId } = await params;
 
-    const trip = await Trip.findById(tripId);  
+    const trip = await Trip.findById(tripId);
 
     if (!trip) {
       return new Response(JSON.stringify({ error: "Trip not found" }), {
@@ -30,7 +30,6 @@ export async function GET(req, { params }) {
   }
 }
 
-
 // DELETE /api/trips/[tripId]
 export async function DELETE(req, { params }) {
   try {
@@ -42,7 +41,7 @@ export async function DELETE(req, { params }) {
     //   });
     // }
 
-    const { tripId } = params;
+    const { tripId } = await params;
 
     const deletedTrip = await Trip.findByIdAndDelete(tripId);
 

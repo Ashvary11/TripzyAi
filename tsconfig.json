@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "models/UserModel.js", "app/(trips)/my/page.tsx", "app/api/trip/last/route.ss"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "models/UserModel.js", "app/(trips)/my/page.jsx", "app/api/trip/last/route.ss", "app/provider.jsx", "app/page.jsx", "app/layout.jsx", "app/_components/Header.jsx", "app/_components/Footer.jsx", "app/_components/HeroSection.jsx", "app/(trips)/create/page.jsx", "app/(trips)/create/_chatbot_components/BudgetUi.jsx", "app/(trips)/create/_chatbot_components/EmptyBoxState.jsx", "app/(trips)/create/_chatbot_components/FinalTripUi.jsx", "app/(trips)/create/_chatbot_components/GroupSize.jsx", "app/(trips)/create/_chatbot_components/SelectDayUi.jsx", "app/(trips)/create/_chatbot_components/ChatBox.jsx", "app/(trips)/create/_chatbot_components/Itineray.jsx", "app/(trips)/TripContext.jsx", "app/(trips)/my/[tripId]/page.jsx"],
   "exclude": ["node_modules"]
 }
