@@ -43,7 +43,12 @@ function ChatBox() {
 
   const onSend = useCallback(
     async (inputText) => {
-      const textToSend = inputText ?? userInput;
+      // const textToSend = inputText ?? userInput;
+      // Ensure textToSend is always a string
+      const textToSend = (
+        typeof inputText === "string" ? inputText : userInput ?? ""
+      ).toString();
+
       if (!textToSend?.trim() || !sessionId) return;
 
       const newMessage = { role: "user", content: textToSend };
@@ -57,6 +62,7 @@ function ChatBox() {
           sessionId,
           isFinal,
         });
+        console.log("/api/ai: result frontend--", result);
 
         if (result?.data?.resp && !isFinal) {
           setMessages((pre) => [
@@ -85,11 +91,23 @@ function ChatBox() {
   const RenderGenerativeUi = (ui) => {
     switch (ui) {
       case "budget":
-        return <BudgetUi onSelectedOption={(val) => onSend(val)} />;
+        return (
+          <BudgetUi onSelectedOption={(val) => onSend(val)} disable={isFinal} />
+        );
       case "groupSize":
-        return <GroupSize onSelectedOption={(val) => onSend(val)} />;
+        return (
+          <GroupSize
+            onSelectedOption={(val) => onSend(val)}
+            disable={isFinal}
+          />
+        );
       case "tripDuration":
-        return <SelectDayUi onSelectedOption={(val) => onSend(val)} />;
+        return (
+          <SelectDayUi
+            onSelectedOption={(val) => onSend(val)}
+            disable={isFinal}
+          />
+        );
       case "final":
         return <FinalTripUi disable={!tripDetail} />;
       case "limit":
@@ -143,6 +161,9 @@ function ChatBox() {
 
   return (
     <div className="h-[80vh] flex flex-col">
+      {/* <BudgetUi onSelectedOption={(val) => onSend(val)} disable={isFinal} /> */}
+      <GroupSize onSelectedOption={(val) => onSend(val)} disable={isFinal} />
+       
       {messages.length === 0 && (
         <EmptyBoxState
           onSelectOption={(text) => {

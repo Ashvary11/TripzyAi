@@ -15,7 +15,7 @@ import axios from "axios";
 import { LoaderOne } from "@/components/ui/loader";
 
 export default function TripDetailPage({ params }) {
-  const { tripId } = React.use(params);;
+  const { tripId } = React.use(params);
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -147,11 +147,12 @@ export default function TripDetailPage({ params }) {
               className="dark:border-gray-700"
             >
               <AccordionTrigger className="text-base md:text-lg font-medium px-2 dark:text-white">
-                {day.day} 
+                 {day.dayNumber} : {day.dayPlanShortDescription}  
+               
               </AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-4 mt-2">
-                   <p className="block">{day.day_plan}</p>
+                  <p className="block">{day.dayPlanLongDescription}</p>
 
                   {day.activities.map((act, j) => (
                     <Card

@@ -74,7 +74,7 @@ export function Itineray() {
           ),
         },
         ...(trip_data?.itinerary || []).map((dayData, i) => ({
-          title: `Day ${dayData?.day}`,
+          title: dayData.dayNumber,
           content: (
             <div key={i} className="flex flex-col gap-4">
               <p className="font-semibold text-gray-700 dark:text-gray-200 mb-2">
@@ -135,7 +135,7 @@ export function Itineray() {
         <Timeline data={data} trip_data={trip_data} />
       ) : (
         <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-2xl">
-          <div className="absolute top-3 right-3 z-10">
+          <div className="absolute top-3 right-3 z-50 pointer-events-auto">
             <Button
               variant="outline"
               size="sm"

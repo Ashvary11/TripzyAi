@@ -23,7 +23,7 @@ const budgetOptions = [
   },
 ];
 
-function BudgetUi({ onSelectedOption }) {
+function BudgetUi({ onSelectedOption, disable }) {
   return (
     <div className="flex flex-col gap-3 p-3 max-w-md mx-auto">
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
@@ -33,12 +33,22 @@ function BudgetUi({ onSelectedOption }) {
         {budgetOptions.map((option) => (
           <div
             key={option.id}
-            onClick={() => onSelectedOption(option.title)}
-            className="cursor-pointer flex flex-col items-center text-center p-4 space-y-2 border rounded-2xl hover:shadow-lg transition-colors duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-primary dark:hover:bg-gray-700"
+            onClick={() => {
+              if (!disable) {
+                onSelectedOption(option.title);
+              }
+            }}
+            className={`group ${
+              disable ? "cursor-not-allowed" : "cursor-pointer"
+            } flex flex-col items-center text-center p-4 space-y-2 border rounded-2xl 
+     hover:shadow-lg transition-all duration-300 
+     bg-white dark:bg-gray-800 hover:bg-primary dark:hover:bg-gray-700`}
           >
             {option.icon}
-            <h3 className="font-semibold text-base">{option.title}</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <h3 className="font-semibold text-base text-gray-900 dark:text-gray-100 group-hover:text-white transition-colors duration-300">
+              {option.title}
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-white transition-colors duration-300">
               {option.description}
             </p>
           </div>

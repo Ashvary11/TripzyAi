@@ -33,20 +33,29 @@ const groupOptions = [
   },
 ];
 
-function GroupSize({ onSelectedOption }) {
+function GroupSize({ onSelectedOption, disable }) {
   return (
     <div className="flex flex-col gap-3 p-3 max-w-md mx-auto">
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Choose your group type:</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+        Choose your group type:
+      </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {groupOptions.map((option) => (
           <div
             key={option.id}
-            onClick={() => onSelectedOption(`${option.title}:${option.people}`)}
-            className="cursor-pointer flex flex-col items-center text-center p-4 space-y-2 border rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:shadow-lg transition-colors duration-300 hover:bg-primary dark:hover:bg-gray-700"
+            onClick={() => {
+              if (!disable)
+                onSelectedOption(`${option.title}:${option.people}`);
+            }}
+            className={`group ${
+              disable ? "cursor-not-allowed":"cursor-pointer"
+            } flex flex-col items-center text-center p-4 space-y-2 border rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:shadow-lg transition-colors duration-300 hover:bg-primary dark:hover:bg-gray-700`}
           >
             {option.icon}
-            <h3 className="font-semibold text-base">{option.title}</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{option.description}</p>
+            <h3 className="group-hover:text-white font-semibold text-base">{option.title}</h3>
+            <p className="group-hover:text-white text-xs text-gray-500 dark:text-gray-400">
+              {option.description}
+            </p>
           </div>
         ))}
       </div>

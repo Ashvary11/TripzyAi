@@ -28,8 +28,9 @@ const TripSchema = new mongoose.Schema(
 
       itinerary: [
         {
-          day: { type: String, required: true },
-          day_plan: { type: String },
+          dayNumber: { type: String, required: true },
+          dayPlanShortDescription: { type: String,  },
+          dayPlanLongDescription: { type: String },
           best_time_to_visit: { type: String },
           activities: [
             {

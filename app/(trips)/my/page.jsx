@@ -62,10 +62,10 @@ export default function My_Trip() {
             Start planning your first adventure and create lasting memories.
           </p>
 
-          <Link href="/create-new-trip">
+          <Link href="/create">
             <Button className="px-8 py-2 text-base rounded-full shadow-sm hover:shadow-md transition
               bg-amber-500 hover:bg-amber-600 text-white
-              dark:bg-amber-700 dark:hover:bg-amber-600">
+              dark:bg-amber-700 dark:hover:bg-amber-600 cursor-pointer">
               ✨ Create New Trip
             </Button>
           </Link>

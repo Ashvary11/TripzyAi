@@ -56,7 +56,7 @@ export default function CreateNewTrip() {
           </div>
 
           {/* Itinerary */}
-          <div className="flex flex-1">
+          <div className="sm:flex flex-1 sm:mt-0 mt-20 hidden">
             <Itineray className="w-full h-full" />
           </div>
 

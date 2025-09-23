@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
-export default function RootLayout({ children }) { 
+export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
           >
             {/* <Provider>{children}</Provider>
              */}
-            {mounted ? <Provider>{children}</Provider> : null}
+            <Provider>{children}</Provider>
           </ThemeProvider>
         </body>
       </html>

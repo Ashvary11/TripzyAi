@@ -51,13 +51,17 @@ function Header() {
             </SignInButton>
           ) : path === "/my" ? (
             <Link href="/create">
-              <Button className="whitespace-nowrap cursor-pointer dark:bg-amber-900 dark:text-white dark:hover:bg-amber-800">Create Trip</Button>
+              <Button className="whitespace-nowrap cursor-pointer dark:bg-amber-900 dark:text-white dark:hover:bg-amber-800">
+                Create Trip
+              </Button>
             </Link>
           ) : (
             <div className="flex items-center gap-3">
               <UserButton />
               <Link href="/my">
-                <Button className="whitespace-nowrap cursor-pointer">My Trips</Button>
+                <Button className="whitespace-nowrap cursor-pointer">
+                  My Trips
+                </Button>
               </Link>
             </div>
           )}
@@ -75,19 +79,19 @@ function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="outline">☰</Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuContent align="end" className="w-48">
               {menuOptions.map((menu, index) => (
-                <DropdownMenuItem key={index} asChild>
-                  <Link href={menu.path}>{menu.name}</Link>
+                <DropdownMenuItem className="border-b border-gray-300 rounded-none" key={index} asChild >
+                  <Link  href={menu.path}>{menu.name}</Link>
                 </DropdownMenuItem>
               ))}
 
               {user ? (
                 <>
-                  <DropdownMenuItem asChild>
+                  <DropdownMenuItem asChild className="border-b border-gray-300 rounded-none">
                     <Link href="/create">Create Trip</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
+                  <DropdownMenuItem asChild className="border-b border-gray-300 rounded-none">
                     <Link href="/my">My-Trips</Link>
                   </DropdownMenuItem>
                 </>
@@ -99,7 +103,7 @@ function Header() {
                 </DropdownMenuItem>
               )}
 
-              <div className="px-4 py-2">
+              <div className=" px-4 py-2 mt-2 w-full dark:bg-gray-400  dark:text-white font-bold rounded-2xl bg-gray-200">
                 Switch Mode : <ModeToggle />
               </div>
             </DropdownMenuContent>

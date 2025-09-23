@@ -397,7 +397,7 @@ export function GlobeDemo() {
     },
   ];
 return (
-  <div className="flex items-center justify-center w-full h-screen dark:bg-black bg-white relative">
+  <div className="z-10 flex items-center justify-center w-full h-screen dark:bg-black bg-white relative">
     <div className="max-w-7xl mx-auto w-full h-full md:h-[40rem] px-4 relative">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
