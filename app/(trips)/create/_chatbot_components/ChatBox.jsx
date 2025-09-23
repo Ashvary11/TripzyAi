@@ -162,7 +162,7 @@ function ChatBox() {
   return (
     <div className="h-[80vh] flex flex-col">
       {/* <BudgetUi onSelectedOption={(val) => onSend(val)} disable={isFinal} /> */}
-      <GroupSize onSelectedOption={(val) => onSend(val)} disable={isFinal} />
+      {/* <GroupSize onSelectedOption={(val) => onSend(val)} disable={isFinal} /> */}
        
       {messages.length === 0 && (
         <EmptyBoxState
