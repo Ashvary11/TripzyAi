@@ -37,8 +37,16 @@ function ChatBox() {
     setUserInput(title);
   }, [title]);
 
+ 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      // messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+
+      messagesEndRef.current.scrollTo({
+        top: messagesEndRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }, [messages]);
 
   const onSend = useCallback(
@@ -62,7 +70,7 @@ function ChatBox() {
           sessionId,
           isFinal,
         });
-        console.log("/api/ai: result frontend--", result);
+        // console.log("/api/ai: result frontend--", result);
 
         if (result?.data?.resp && !isFinal) {
           setMessages((pre) => [
@@ -163,7 +171,7 @@ function ChatBox() {
     <div className="h-[80vh] flex flex-col">
       {/* <BudgetUi onSelectedOption={(val) => onSend(val)} disable={isFinal} /> */}
       {/* <GroupSize onSelectedOption={(val) => onSend(val)} disable={isFinal} /> */}
-       
+
       {messages.length === 0 && (
         <EmptyBoxState
           onSelectOption={(text) => {
@@ -174,7 +182,7 @@ function ChatBox() {
       )}
 
       {/* Messages */}
-      <section className="flex-1 overflow-y-auto p-4">
+      <section className="flex-1 overflow-y-auto p-4"  ref={messagesEndRef}>
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -183,7 +191,7 @@ function ChatBox() {
             }`}
           >
             <div
-              ref={messagesEndRef}
+             
               className={`max-w-lg px-4 py-2 rounded-lg ${
                 msg.role === "user"
                   ? "bg-primary text-white dark:bg-gray-800"

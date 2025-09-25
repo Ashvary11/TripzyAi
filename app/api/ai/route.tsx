@@ -124,7 +124,11 @@ export async function POST(req: NextRequest) {
       try {
         const result = await createAndSaveTrip(parsed.trip_plan);
         console.log("Saved trip ID:", result);
-        // console.log("Saved trip ID:", result.tripId);
+        setTimeout(() => {
+          messageHistories.delete(sessionId);
+        }, 5000);
+
+        console.log("messageHistories:", messageHistories);
       } catch (err) {
         console.error("Failed to save trip", err);
       }
