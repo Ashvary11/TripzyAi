@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { messageHistories } from "../route";
+import { messageHistories } from "@/lib/messageHistories";
+ 
+ 
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,13 +14,13 @@ export async function POST(req: NextRequest) {
       );
     }
     // console.log("messageHistoriesBeforClear",messageHistories);
-    
+
     // Clear the message history for this session
     if (messageHistories.has(sessionId)) {
       messageHistories.delete(sessionId);
       console.log(`Cleared message history for session: ${sessionId}`);
     }
-//  console.log("messageHistoriesAfterClear--",messageHistories);
+    //  console.log("messageHistoriesAfterClear--",messageHistories);
     return NextResponse.json({
       success: true,
       message: "Chat history cleared successfully",
