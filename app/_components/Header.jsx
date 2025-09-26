@@ -24,7 +24,13 @@ function Header() {
         {/* Logo */}
         <Link href="/">
           <div className="flex items-center gap-3 cursor-pointer">
-            <Image src="/logo.svg" alt="logo" width={36} height={36} />
+            <Image
+              src="/logo.svg"
+              alt="logo"
+              width={36}
+              height={36}
+              className="dark:invert "
+            />
             <h1 className="font-extrabold text-2xl sm:text-3xl text-gray-900 dark:text-amber-100">
               Tripzy-Ai
             </h1>
@@ -81,17 +87,27 @@ function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
               {menuOptions.map((menu, index) => (
-                <DropdownMenuItem className="border-b border-gray-300 rounded-none" key={index} asChild >
-                  <Link  href={menu.path}>{menu.name}</Link>
+                <DropdownMenuItem
+                  className="border-b border-gray-300 rounded-none"
+                  key={index}
+                  asChild
+                >
+                  <Link href={menu.path}>{menu.name}</Link>
                 </DropdownMenuItem>
               ))}
 
               {user ? (
                 <>
-                  <DropdownMenuItem asChild className="border-b border-gray-300 rounded-none">
+                  <DropdownMenuItem
+                    asChild
+                    className="border-b border-gray-300 rounded-none"
+                  >
                     <Link href="/create">Create Trip</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="border-b border-gray-300 rounded-none">
+                  <DropdownMenuItem
+                    asChild
+                    className="border-b border-gray-300 rounded-none"
+                  >
                     <Link href="/my">My-Trips</Link>
                   </DropdownMenuItem>
                 </>

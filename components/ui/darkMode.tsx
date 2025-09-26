@@ -9,12 +9,11 @@ export function ModeToggle() {
 
   return (
     <Button
-      className="cursor-pointer  dark:bg-orange-600 bg-gray-300"
+      className="cursor-pointer  dark:bg-orange-600 bg-gray-100 hover:bg-gray-200"
       variant="outline"
       size="icon"
       color="orange"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-    
     >
       {theme === "dark" ? (
         <Sun className="h-5 w-5 transition-all text-white" />

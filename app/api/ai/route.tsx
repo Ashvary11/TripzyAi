@@ -13,7 +13,7 @@ import {
 } from "@/lib/prompts/tripPlannerPrompts";
 
 // ----------------- Memory Setup -----------------
-const messageHistories = new Map<string, InMemoryChatMessageHistory>();
+export const messageHistories = new Map<string, InMemoryChatMessageHistory>();
 
 // ----------------- Model -----------------
 const llm = new ChatGoogleGenerativeAI({

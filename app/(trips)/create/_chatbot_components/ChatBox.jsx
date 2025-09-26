@@ -1,5 +1,5 @@
 "use client";
-
+import { RefreshCw } from "lucide-react";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,7 +37,6 @@ function ChatBox() {
     setUserInput(title);
   }, [title]);
 
- 
   useEffect(() => {
     if (messagesEndRef.current) {
       // messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
@@ -167,22 +166,50 @@ function ChatBox() {
     }
   }, [isFinal, userInput, onSend]);
 
+  const resetChat = async () => {
+    console.log("reset", sessionId);
+    try {
+      const response = await axios.post("/api/ai/chat-reset", { sessionId });
+      console.log(response);
+      setMessages([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <div className="h-[80vh] flex flex-col">
+    <div className="h-[80vh] flex flex-col ">
       {/* <BudgetUi onSelectedOption={(val) => onSend(val)} disable={isFinal} /> */}
       {/* <GroupSize onSelectedOption={(val) => onSend(val)} disable={isFinal} /> */}
 
-      {messages.length === 0 && (
+      {messages.length === 0 ? (
         <EmptyBoxState
           onSelectOption={(text) => {
             setUserInput(text);
             onSend(text);
           }}
         />
-      )}
+      ) : (
+        <div className="flex justify-end p-2">
+          <button
+            className="group relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-gray-700 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer border border-transparent hover:border-gray-200 dark:hover:bg-red-400      dark:bg-gray-500 dark:text-white"
+            onClick={resetChat}
+          >
+            <RefreshCw className="w-4 h-4 transition-transform group-hover:rotate-180 duration-500" />
+            <span>Reset</span>
 
+            {/* Hover tooltip */}
+            <div className="absolute right-full top-1/2 transform -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+              <div className="bg-red-500 text-white text-sm px-3 py-1.5 rounded-lg whitespace-nowrap">
+                Unsaved changes
+                {/* Tooltip arrow */}
+                <div className="absolute left-full top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-4 border-l-red-500"></div>
+              </div>
+            </div>
+          </button>
+        </div>
+      )}
       {/* Messages */}
-      <section className="flex-1 overflow-y-auto p-4"  ref={messagesEndRef}>
+      <section className="flex-1 overflow-y-auto p-4" ref={messagesEndRef}>
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -191,11 +218,10 @@ function ChatBox() {
             }`}
           >
             <div
-             
               className={`max-w-lg px-4 py-2 rounded-lg ${
-                msg.role === "user"
-                  ? "bg-primary text-white dark:bg-gray-800"
-                  : "bg-gray-100 text-black dark:bg-gray-800 dark:text-white"
+           msg.role === "user"
+  ? "bg-primary text-white dark:bg-orange-600 dark:text-white shadow-sm dark:shadow-orange-900/20"
+  : "bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow-sm"
               }`}
             >
               {msg.content}

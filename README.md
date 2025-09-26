@@ -1,6 +1,14 @@
- 
-
 # 🌍 Tripzy-AI : https://tripzy-ai.vercel.app/
+
+> ✈️ **_AI-Powered Trip Planner_**
+
+**Plan your dream journey effortlessly with our intelligent travel assistant powered by Google Gemini. Through an interactive chatbot, you can explore destinations, find the best hotels tailored to your budget, group size, and preferences, and generate personalized day-by-day itineraries.**
+
+🔗 [**Live Demo**](https://tripzy-ai.vercel.app/)
+
+---
+
+# Tech Used
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.4.4-black)](https://nextjs.org/)  
 [![React](https://img.shields.io/badge/React-19.1.0-blue)](https://reactjs.org/)  
@@ -9,36 +17,44 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-8.18.0-green)](https://www.mongodb.com/)  
 [![Clerk](https://img.shields.io/badge/Clerk-6.31.6-orange)](https://clerk.com/)  
 [![LangChain](https://img.shields.io/badge/LangChain-0.3.73-red)](https://www.langchain.com/)  
-[![Three.js](https://img.shields.io/badge/Three.js-0.180.0-lightgrey)](https://threejs.org/)
-
-> ✈️ **Your personalized AI Trip Planner powered by Google Gemini.**
-
-🔗 [**Live Demo**](https://tripzy-ai.vercel.app/)
-
----
-
-## 📸 Screenshots
-
-_ screenshots here_
+[![Shadcn => Three.js](https://img.shields.io/badge/Three.js-0.180.0-lightgrey)](https://threejs.org/)
 
 ---
 
 ## 🚀 Features
 
-- **AI-Powered Trip Planning** – Generate complete itineraries, flights, hotels, and recommendations via **Google Gemini**.
-- **Interactive Chatbot** – Plan your trip through a natural conversation flow.
-- **User Authentication** – Secure sign-in/sign-up powered by **Clerk**.
-- **Trip Management** – Save, view, and manage your trips in **MongoDB**.
-- **3D Globe Visualization** – Explore destinations interactively with **Three.js**.
-- **Dark Mode Support** – Switch themes for a better experience.
-- **Responsive Design** – Works seamlessly on desktop & mobile.
-- **Rate Limiting** – Prevents abuse using **Arcjet**.
+- **🛫 AI-Powered Trip Planning** – Complete trip planning – itineraries, flights, hotels, and local recommendations .
+- **💬 Interactive Chatbot** – Plan your trip through a natural conversation flow.
+- **🔐 User Authentication** – Secure sign-in/sign-up powered by **Clerk**.
+- **📂 Trip Management** – Save, view, and manage your trips in **MongoDB**.
+- **🌐 3D Globe Visualization** – Explore destinations interactively with **Three.js**.
+- **🗺️Hotel** – 🗺️ Direct hotel addresses and Google Maps integration with photos
+
+- **🛡️ Rate Limiting** – Prevents abuse using **Arcjet**.
+- **🌙 Dark Mode / Responsive Design** – Dark mode support & responsive design for all devices.
+  .
+
+---
+ 
+## 📸 Screenshots 
+
+| Home Page | Chatbot+Globe | Planned Trip Side View |
+|-----------|---------|-----------------|
+| ![Home](./screenshots/home-page.png) | ![Chat](./screenshots/chat-box.png) | ![Final Trip](./screenshots/final-trip-side-view.png) |
+
+| Day Activity | My Trips | Trip Details |
+|--------------|----------|--------------|
+| ![Activity](./screenshots/day-activity.png) | ![Trips](./screenshots/my-trips.png) | ![Details](./screenshots/trip-details.png) |
+
+| Mobile View |
+|-------------|
+| ![Mobile](./screenshots/mobile-view.png) |
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS
+- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS , AccertinityUi, ShadCn
 - **Backend**: Next.js API Routes
 - **AI**: LangChain + Google Gemini (Gemini 2.0 Flash)
 - **Database**: MongoDB + Mongoose
@@ -63,8 +79,8 @@ _ screenshots here_
 1. **Clone the repo**
 
    ```bash
-   git clone https://github.com/your-username/tripzy-ai.git
-   cd tripzy-ai
+   git clone https://github.com/Ashvary1996/TripzyAi.git
+   cd tripzy_ai
 
    ```
 
