@@ -14,13 +14,14 @@ import {
 import { messageHistories } from "@/lib/messageHistories";
 
 // ----------------- Memory Setup -----------------
- 
 
 // ----------------- Model -----------------
 const llm = new ChatGoogleGenerativeAI({
-  model: "gemini-2.0-flash", //
+  // model: "gemini-2.0-flash",
+  model: "gemini-2.5-flash",
   apiKey: process.env.GOOGLE_API_KEY!,
   temperature: 0,
+  maxRetries: 0,
 });
 
 // ----------------- API Route -----------------
