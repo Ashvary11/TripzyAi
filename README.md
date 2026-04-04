@@ -79,7 +79,7 @@
 1. **Clone the repo**
 
    ```bash
-   git clone https://github.com/Ashvary1996/TripzyAi.git
+   git clone https://github.com/Ashvary11/TripzyAi.git
    cd tripzy_ai
 
    ```

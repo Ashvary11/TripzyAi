@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     if (!messages || !sessionId) {
       return NextResponse.json(
         { error: "message and sessionId are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     // ------ rate limiting
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
 
     const response = await chainWithHistory.invoke(
       { input: lastMessage },
-      { configurable: { sessionId } }
+      { configurable: { sessionId } },
     );
 
     // console.log("AI Raw Response:", response);
