@@ -53,7 +53,7 @@ function ChatBox() {
       // const textToSend = inputText ?? userInput;
       // Ensure textToSend is always a string
       const textToSend = (
-        typeof inputText === "string" ? inputText : userInput ?? ""
+        typeof inputText === "string" ? inputText : (userInput ?? "")
       ).toString();
 
       if (!textToSend?.trim() || !sessionId) return;
@@ -88,11 +88,29 @@ function ChatBox() {
         }
       } catch (err) {
         console.error("Error from API:", err);
+        const data = err?.response?.data;
+        let errorMessage = "Something went wrong. Try again.";
+
+        if (data?.source === "ai") {
+          // AI issue (rate limit / overload)
+          errorMessage = data?.message;
+        } else if (data?.source === "server") { 
+          errorMessage = data?.message ;
+        }
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: errorMessage,
+            ui: "error",
+          },
+        ]);
       } finally {
         setLoading(false);
       }
     },
-    [userInput, sessionId, messages, isFinal, setTrip]
+    [userInput, sessionId, messages, isFinal, setTrip],
   );
 
   const RenderGenerativeUi = (ui) => {
@@ -219,9 +237,9 @@ function ChatBox() {
           >
             <div
               className={`max-w-lg px-4 py-2 rounded-lg ${
-           msg.role === "user"
-  ? "bg-primary text-white dark:bg-orange-600 dark:text-white shadow-sm dark:shadow-orange-900/20"
-  : "bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow-sm"
+                msg.role === "user"
+                  ? "bg-primary text-white dark:bg-orange-600 dark:text-white shadow-sm dark:shadow-orange-900/20"
+                  : "bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow-sm"
               }`}
             >
               {msg.content}
@@ -257,7 +275,7 @@ function ChatBox() {
           <Button
             size="icon"
             onClick={onSend}
-            disabled={isFinal}
+            disabled={isFinal || loading}
             className="absolute top-2 right-2 cursor-pointer dark:hover:bg-orange-500 hover:text-orange transition-colors"
           >
             <Send className="h-4 w-4" />

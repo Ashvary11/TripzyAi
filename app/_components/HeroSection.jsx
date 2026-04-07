@@ -63,9 +63,14 @@ function Hero() {
             className="w-full h-20 border-none focus-visible:ring-0 shadow-none resize-none bg-transparent text-gray-900 dark:text-gray-100"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onSend();
+              }
+            }}
           />
           <Button
-            onClick={onSend}
+            onClick={onSend} 
             className="px-3 py-2 absolute bottom-4 right-4 rounded-2xl cursor-pointer"
           >
             Get Started
@@ -77,7 +82,7 @@ function Hero() {
           {suggestions.map((s, i) => (
             <div
               key={i}
-              className="flex items-center gap-2 border px-4 py-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition-colors dark:hover:bg-gray-700  w-full sm:w-auto  active:bg-primary active:text-white dark:active:bg-gray-700 duration-200 ease-in-out " 
+              className="flex items-center gap-2 border px-4 py-2 rounded-full cursor-pointer hover:bg-primary hover:text-white transition-colors dark:hover:bg-gray-700  w-full sm:w-auto  active:bg-primary active:text-white dark:active:bg-gray-700 duration-200 ease-in-out "
               onClick={() => setInput(s.title)}
             >
               {s.icon}

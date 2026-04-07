@@ -18,7 +18,9 @@ import { messageHistories } from "@/lib/messageHistories";
 // ----------------- Model -----------------
 const llm = new ChatGoogleGenerativeAI({
   // model: "gemini-2.0-flash",
-  model: "gemini-2.5-flash",
+  // model: "gemini-2.5-flash",
+  // model: "gemini-2.5-flash-lite",
+  model: "gemini-3.1-flash-lite-preview",
   apiKey: process.env.GOOGLE_API_KEY!,
   temperature: 0,
   maxRetries: 0,
@@ -137,8 +139,39 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(parsed);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error }, { status: 500 });
+  } catch (error: any) {
+    console.error("ERROR:", error);
+
+    // Detect AI provider errors
+    const message = error?.message || "";
+    const status = error?.status || error?.response?.status;
+    // ✅ Detect Gemini overload / free tier limits
+    if (
+      status === 429 ||
+      status === 503 ||
+      message.includes("quota") ||
+      message.includes("rate limit") ||
+      message.includes("overloaded") ||
+      message.includes("429")
+    ) {
+      return NextResponse.json(
+        {
+          error: "AI_MODEL_BUSY",
+          message:
+            "⚡ AI is currently busy due to high demand (free tier). Please try again in a few seconds.",
+        source: "ai",
+        },
+        { status: 503 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        error: "SERVER_ERROR",
+        message: "⚠️ Something went wrong on our side.",
+        source: "server",
+      },
+      { status: 500 },
+    );
   }
 }
