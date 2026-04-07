@@ -17,9 +17,6 @@ import { messageHistories } from "@/lib/messageHistories";
 
 // ----------------- Model -----------------
 const llm = new ChatGoogleGenerativeAI({
-  // model: "gemini-2.0-flash",
-  // model: "gemini-2.5-flash",
-  // model: "gemini-2.5-flash-lite",
   model: "gemini-3.1-flash-lite-preview",
   apiKey: process.env.GOOGLE_API_KEY!,
   temperature: 0,
@@ -88,8 +85,17 @@ export async function POST(req: NextRequest) {
       ? messages[messages.length - 1]?.content
       : messages;
 
+    // On final prompt, summarize all collected info so model doesn't drift
+    const inputMessage = isFinal
+      ? `Here is all the trip information collected so far:\n${
+          Array.isArray(messages)
+            ? messages.map((m: any) => `${m.role}: ${m.content}`).join("\n")
+            : messages
+        }\n\nNow generate the full trip plan strictly based on the above. Do not change the destination or any detail.`
+      : lastMessage;
+
     const response = await chainWithHistory.invoke(
-      { input: lastMessage },
+      { input: inputMessage },
       { configurable: { sessionId } },
     );
 
@@ -159,9 +165,9 @@ export async function POST(req: NextRequest) {
           error: "AI_MODEL_BUSY",
           message:
             "⚡ AI is currently busy due to high demand (free tier). Please try again in a few seconds.",
-        source: "ai",
+          source: "ai",
         },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
