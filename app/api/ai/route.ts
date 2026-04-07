@@ -13,8 +13,6 @@ import {
 } from "@/lib/prompts/tripPlannerPrompts";
 import { messageHistories } from "@/lib/messageHistories";
 
-// ----------------- Memory Setup -----------------
-
 // ----------------- Model -----------------
 const llm = new ChatGoogleGenerativeAI({
   model: "gemini-3.1-flash-lite-preview",
@@ -35,15 +33,14 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
     }
+
     // ------ rate limiting
     const user = await currentUser();
-    // console.log("user----------", user);
 
     const decision = await aj.protect(req, {
       userId: user?.primaryEmailAddress?.emailAddress ?? "",
       requested: isFinal ? 1 : 0,
-    }); // Deduct 1 tokens from the bucket
-    // console.log("Arcjet decision", decision);
+    });
 
     const reason = decision.reason as ArcjetRateLimitReason;
     console.log("Arcjet reson", reason);
@@ -85,7 +82,6 @@ export async function POST(req: NextRequest) {
       ? messages[messages.length - 1]?.content
       : messages;
 
-    // On final prompt, summarize all collected info so model doesn't drift
     const inputMessage = isFinal
       ? `Here is all the trip information collected so far:\n${
           Array.isArray(messages)
@@ -94,42 +90,55 @@ export async function POST(req: NextRequest) {
         }\n\nNow generate the full trip plan strictly based on the above. Do not change the destination or any detail.`
       : lastMessage;
 
-    const response = await chainWithHistory.invoke(
-      { input: inputMessage },
-      { configurable: { sessionId } },
-    );
+    // ----------------- Invoke with Retry -----------------
+    const invokeWithRetry = async (input: string, retries = 2) => {
+      for (let i = 0; i <= retries; i++) {
+        try {
+          const response = await chainWithHistory.invoke(
+            { input },
+            { configurable: { sessionId } },
+          );
 
-    // console.log("AI Raw Response:", response);
-    //  Normalize Gemini response (string or array of objects)
-    let rawContent: string;
-    if (typeof response.content === "string") {
-      rawContent = response.content;
-    } else if (Array.isArray(response.content)) {
-      // Join all text parts together
-      rawContent = response.content
-        .map((part: any) => (part.text ? part.text : ""))
-        .join(" ")
-        .trim();
-    } else {
-      rawContent = String(response.content ?? "");
-    }
-    //  clean accidental markdown fences if Gemini still adds them
+          let rawContent: string;
+          if (typeof response.content === "string") {
+            rawContent = response.content;
+          } else if (Array.isArray(response.content)) {
+            rawContent = response.content
+              .map((part: any) => (part.text ? part.text : ""))
+              .join(" ")
+              .trim();
+          } else {
+            rawContent = String(response.content ?? "");
+          }
 
-    rawContent = rawContent
-      .replace(/```json/g, "")
-      .replace(/```/g, "")
-      .trim();
+          rawContent = rawContent
+            .replace(/```json/g, "")
+            .replace(/```/g, "")
+            .trim();
 
-    //  Parse to JSON
-    let parsed;
-    try {
-      parsed = JSON.parse(rawContent);
-    } catch {
-      parsed = { resp: response.content, ui: "final" }; // fallback
-    }
-    // console.log("messagehistry Obj:--", messageHistories);
+          const parsed = JSON.parse(rawContent); // throws if malformed → retry
+          return parsed;
+        } catch (err: any) {
+          const isLastAttempt = i === retries;
+          const isAiBusy =
+            err?.status === 429 ||
+            err?.status === 503 ||
+            err?.message?.includes("quota") ||
+            err?.message?.includes("overloaded") ||
+            err?.message?.includes("rate limit");
+
+          if (isLastAttempt || !isAiBusy) throw err;
+
+          console.warn(`Retry ${i + 1} due to AI error:`, err?.message);
+          await new Promise((res) => setTimeout(res, 1500 * (i + 1)));
+        }
+      }
+    };
+
+    const parsed = await invokeWithRetry(inputMessage);
+
     console.log("backed_parsed:--", parsed);
-    //
+
     if (parsed.trip_plan) {
       try {
         const result = await createAndSaveTrip(parsed.trip_plan);
@@ -137,7 +146,6 @@ export async function POST(req: NextRequest) {
         setTimeout(() => {
           messageHistories.delete(sessionId);
         }, 5000);
-
         console.log("messageHistories:", messageHistories);
       } catch (err) {
         console.error("Failed to save trip", err);
@@ -148,10 +156,9 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error("ERROR:", error);
 
-    // Detect AI provider errors
     const message = error?.message || "";
     const status = error?.status || error?.response?.status;
-    // ✅ Detect Gemini overload / free tier limits
+
     if (
       status === 429 ||
       status === 503 ||
