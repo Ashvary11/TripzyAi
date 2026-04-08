@@ -1,23 +1,20 @@
 import connectToDb from "../../../lib/dbConfig";
-import { currentUser } from "@clerk/nextjs/server";
 import Trip from "../../../models/TripModel";
 
- 
-export async function GET() {
+export async function GET(req) {
   try {
     await connectToDb();
-    const clerkUser = await currentUser();
 
-    if (!clerkUser) {
-      return new Response(JSON.stringify({ error: "Not authenticated" }), {
-        status: 401,
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+
+    if (!userId) {
+      return new Response(JSON.stringify({ error: "User ID is required" }), {
+        status: 400,
       });
     }
-    
-    const trips = await Trip.find({ userId: clerkUser.id }).sort({ createdAt: -1 }).lean();
-    // const trips = await Trip.find({
-    //   userId: "user_3209fVYxW0tvYdnMfxvatMB9aNa",
-    // });
+
+    const trips = await Trip.find({ userId }).sort({ createdAt: -1 }).lean();
 
     return new Response(
       JSON.stringify({

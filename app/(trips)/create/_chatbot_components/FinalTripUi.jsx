@@ -9,7 +9,7 @@ import axios from "axios";
 function FinalTripUi({ disable }) {
   const router = useRouter();
   const [tripId, setTripId] = useState("");
-
+  let userId = localStorage.getItem("user_uuidv4");
   const handleViewTrip = () => {
     if (tripId) {
       router.push(`/my/${tripId}`);
@@ -19,7 +19,7 @@ function FinalTripUi({ disable }) {
   useEffect(() => {
     const fetchLastTrip = async () => {
       try {
-        const { data } = await axios.get("/api/trip/last");
+        const { data } = await axios.get(`/api/trip/last?userId=${userId}`);
         setTripId(data._id);
       } catch (err) {
         console.error("Failed to fetch last trip:", err);
@@ -38,7 +38,11 @@ function FinalTripUi({ disable }) {
 
       <h2 className="flex items-center gap-2 text-lg font-semibold text-orange-600 dark:text-orange-400">
         <Plane className="w-5 h-5 text-teal-600 dark:text-teal-400" />
-        {disable ? <span>Planning your dream trip</span> : <span>Trip Created</span>}
+        {disable ? (
+          <span>Planning your dream trip</span>
+        ) : (
+          <span>Trip Created</span>
+        )}
       </h2>
 
       {disable ? (

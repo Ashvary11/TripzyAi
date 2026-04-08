@@ -11,10 +11,15 @@ export default function My_Trip() {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  let userId = localStorage.getItem("user_uuidv4");
+
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        const res = await axios.get("/api/trip");
+        // const res = await axios.get("/api/trip");
+        const res = await axios.get(`/api/trip?userId=${userId}`);
+        console.log(userId);
+
         setTrips(res.data?.trips || []);
       } catch (err) {
         console.error("Error fetching trips", err);
@@ -63,9 +68,11 @@ export default function My_Trip() {
           </p>
 
           <Link href="/create">
-            <Button className="px-8 py-2 text-base rounded-full shadow-sm hover:shadow-md transition
+            <Button
+              className="px-8 py-2 text-base rounded-full shadow-sm hover:shadow-md transition
               bg-amber-500 hover:bg-amber-600 text-white
-              dark:bg-amber-700 dark:hover:bg-amber-600 cursor-pointer">
+              dark:bg-amber-700 dark:hover:bg-amber-600 cursor-pointer"
+            >
               ✨ Create New Trip
             </Button>
           </Link>

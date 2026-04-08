@@ -21,12 +21,13 @@ function ChatBox() {
   const [loading, setLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false);
   const [tripDetail, setTripDetails] = useState(null);
-
   const { setTrip } = useTrip();
   const messagesEndRef = useRef(null);
   const searchParams = useSearchParams();
   const title = searchParams.get("title") ?? "";
-
+  let userId = localStorage.getItem("user_uuidv4");
+  console.log("user_uuidv4",userId);
+  
   useEffect(() => {
     let storedId = localStorage.getItem("trip_session_id");
     if (!storedId) {
@@ -68,6 +69,7 @@ function ChatBox() {
           messages: [...messages, newMessage],
           sessionId,
           isFinal,
+          userId,
         });
         // console.log("/api/ai: result frontend--", result);
 
@@ -94,8 +96,8 @@ function ChatBox() {
         if (data?.source === "ai") {
           // AI issue (rate limit / overload)
           errorMessage = data?.message;
-        } else if (data?.source === "server") { 
-          errorMessage = data?.message ;
+        } else if (data?.source === "server") {
+          errorMessage = data?.message;
         }
 
         setMessages((prev) => [

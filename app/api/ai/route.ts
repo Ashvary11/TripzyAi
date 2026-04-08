@@ -3,7 +3,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnableWithMessageHistory } from "@langchain/core/runnables";
 import { InMemoryChatMessageHistory } from "@langchain/core/chat_history";
-import { currentUser } from "@clerk/nextjs/server";
+// import { currentUser } from "@clerk/nextjs/server";
 import { ArcjetRateLimitReason } from "@arcjet/next";
 import createAndSaveTrip from "../trip/createAndSave.js";
 import { aj } from "@/lib/arject";
@@ -24,7 +24,10 @@ const llm = new ChatGoogleGenerativeAI({
 // ----------------- API Route -----------------
 export async function POST(req: NextRequest) {
   try {
-    const { messages, sessionId, isFinal } = await req.json();
+    const { messages, sessionId, isFinal, userId } = await req.json();
+
+
+    console.log("fetch  userId local", userId);
     console.log("backend", messages, sessionId);
 
     if (!messages || !sessionId) {
@@ -35,22 +38,23 @@ export async function POST(req: NextRequest) {
     }
 
     // ------ rate limiting
-    const user = await currentUser();
+    // const user = await currentUser();
+    const user = userId;
 
-    const decision = await aj.protect(req, {
-      userId: user?.primaryEmailAddress?.emailAddress ?? "",
-      requested: isFinal ? 1 : 0,
-    });
+    // const decision = await aj.protect(req, {
+    //   userId: user?.primaryEmailAddress?.emailAddress ?? "",
+    //   requested: isFinal ? 1 : 0,
+    // });
 
-    const reason = decision.reason as ArcjetRateLimitReason;
-    console.log("Arcjet reson", reason);
+    // const reason = decision.reason as ArcjetRateLimitReason;
+    // console.log("Arcjet reson", reason);
 
-    if (reason?.remaining == 0) {
-      return NextResponse.json({
-        resp: "You have reached your trip creation limit for today. Please try again tomorrow.",
-        ui: "limit",
-      });
-    }
+    // if (reason?.remaining == 0) {
+    //   return NextResponse.json({
+    //     resp: "You have reached your trip creation limit for today. Please try again tomorrow.",
+    //     ui: "limit",
+    //   });
+    // }
 
     // ----------------- Prompt Template -----------------
     const chatPrompt = ChatPromptTemplate.fromMessages([
@@ -138,10 +142,11 @@ export async function POST(req: NextRequest) {
     const parsed = await invokeWithRetry(inputMessage);
 
     console.log("backed_parsed:--", parsed);
+    console.log("userID in chat box:--", user);
 
     if (parsed.trip_plan) {
       try {
-        const result = await createAndSaveTrip(parsed.trip_plan);
+        const result = await createAndSaveTrip(parsed.trip_plan,user);
         console.log("Saved trip ID:", result);
         setTimeout(() => {
           messageHistories.delete(sessionId);

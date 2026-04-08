@@ -1,13 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Earth, Globe2, Landmark, Plane } from "lucide-react";
-import { useUser } from "@clerk/nextjs";
+// import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import DraggableCards from "@/components/DraggableCards";
 
 function Hero() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    let id = localStorage.getItem("user_uuidv4");
+    if (!id) {
+      id = uuidv4();
+      localStorage.setItem("user_uuidv4", id);
+    }
+    setUser(id);
+  }, []);
+
   const suggestions = [
     {
       title: "Create New Trip",
@@ -28,14 +38,14 @@ function Hero() {
   ];
 
   const [input, setInput] = useState("");
-  const { user } = useUser();
+  // const { user } = useUser();
   const router = useRouter();
 
   const onSend = () => {
-    if (!user) {
-      router.push("/sign-in");
-      return;
-    }
+    // if (!user) {
+    //   router.push("/sign-in");
+    //   return;
+    // }
     router.push("/create?title=" + encodeURIComponent(input));
     setInput("");
   };
@@ -70,7 +80,7 @@ function Hero() {
             }}
           />
           <Button
-            onClick={onSend} 
+            onClick={onSend}
             className="px-3 py-2 absolute bottom-4 right-4 rounded-2xl cursor-pointer"
           >
             Get Started
