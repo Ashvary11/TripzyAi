@@ -1,5 +1,5 @@
-import connectToDb from "../../../lib/dbConfig";
-import Trip from "../../../models/TripModel";
+import connectToDb from "../../../../lib/dbConfig";
+import Trip from "../../../../models/TripModel";
 
 export async function GET(req) {
   try {

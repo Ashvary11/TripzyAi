@@ -1,18 +1,18 @@
 "use client";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+import { useSearchParams } from "next/navigation";
+import { useTrip } from "../../app/trips/TripContext";
 import { RefreshCw } from "lucide-react";
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import axios from "axios";
 import { Loader, Send } from "lucide-react";
-import { v4 as uuidv4 } from "uuid";
 import EmptyBoxState from "./EmptyBoxState";
-import GroupSize from "./GroupSize";
-import BudgetUi from "./BudgetUi";
-import SelectDayUi from "./SelectDayUi";
-import FinalTripUi from "./FinalTripUi";
-import { useTrip } from "@/app/(trips)/TripContext";
-import { useSearchParams } from "next/navigation";
+import GroupSize from "./chat-ui/GroupSize";
+import BudgetUi from "./chat-ui/BudgetUi";
+import SelectDayUi from "./chat-ui/SelectDayUi";
+import FinalTripUi from "./chat-ui/FinalTripUi";
 
 function ChatBox() {
   const [messages, setMessages] = useState([]);
@@ -40,8 +40,6 @@ function ChatBox() {
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      // messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-
       messagesEndRef.current.scrollTo({
         top: messagesEndRef.current.scrollHeight,
         behavior: "smooth",
@@ -51,8 +49,6 @@ function ChatBox() {
 
   const onSend = useCallback(
     async (inputText) => {
-      // const textToSend = inputText ?? userInput;
-      // Ensure textToSend is always a string
       const textToSend = (
         typeof inputText === "string" ? inputText : (userInput ?? "")
       ).toString();

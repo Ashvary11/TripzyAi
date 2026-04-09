@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Timeline } from "@/components/ui/timeline";
 import Image from "next/image";
 import {
@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IconBrandGoogleMaps } from "@tabler/icons-react";
-import { useTrip } from "@/app/(trips)/TripContext";
+import { useTrip } from "@/app/trips/TripContext";
 import { GlobeDemo } from "@/components/Globe";
 
 export function Itineray() {
@@ -27,13 +27,10 @@ export function Itineray() {
         {
           title: "Recommended Hotels",
           content: (
-            // <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
-            // <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
             <div className="flex flex-col gap-4">
               {trip_data?.hotels.map((hotel, index) => (
                 <div
                   key={index}
-                  // className="flex flex-col gap-2 bg-white dark:bg-gray-800 p-3 rounded-2xl shadow-sm"
                   className="flex flex-col gap-2 bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-2xl shadow-sm hover:shadow-md transition"
                 >
                   <Image
@@ -41,18 +38,13 @@ export function Itineray() {
                     alt={hotel?.hotel_name}
                     width={400}
                     height={200}
-                    // className="rounded-2xl shadow object-cover w-full h-48"
                     className="rounded-xl object-cover w-full h-40 sm:h-44 md:h-48"
                     unoptimized
                   />
-                  {/* <h2 className="font-semibold text-lg text-gray-900 dark:text-gray-100"> */}
                   <h2 className="font-semibold text-base sm:text-lg md:text-xl">
                     {hotel?.hotel_name}
                   </h2>
-                  {/* <p className="text-gray-500 dark:text-gray-300 text-sm"> */}
-                 <p className="text-xs sm:text-sm">
-                    {hotel?.hotel_address}
-                  </p>
+                  <p className="text-xs sm:text-sm">{hotel?.hotel_address}</p>
                   <div className="flex justify-between items-center">
                     <p className="flex gap-2 text-green-600 items-center">
                       <Wallet /> {hotel?.price_per_night}
@@ -66,12 +58,14 @@ export function Itineray() {
                   </p>
                   <Link
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                      hotel?.hotel_name
+                      hotel?.hotel_name,
                     )}`}
                     target="_blank"
                   >
-                    {/* <Button variant="outline" className="mt-2 w-full text-sm"> */}
-                    <Button variant="outline" className="mt-2 w-full text-xs sm:text-sm">
+                    <Button
+                      variant="outline"
+                      className="mt-2 w-full text-xs sm:text-sm"
+                    >
                       View <HotelIcon className="inline-block ml-1" />
                     </Button>
                   </Link>
@@ -87,7 +81,6 @@ export function Itineray() {
               <p className="font-semibold text-gray-700 dark:text-gray-200 mb-2">
                 Best Time: {dayData?.best_time_to_visit}
               </p>
-              {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6"> */}
               <div className="flex flex-wrap">
                 {(dayData.activities || []).map((activity, idx) => (
                   <div
@@ -116,7 +109,7 @@ export function Itineray() {
                     </p>
                     <Link
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                        activity?.place_name
+                        activity?.place_name,
                       )}`}
                       target="_blank"
                     >
@@ -139,13 +132,10 @@ export function Itineray() {
 
   return (
     <div className="relative w-full h-[85vh] overflow-y-auto p-4">
-    {/* // <div className="relative w-full h-full max-h-[calc(100vh-120px)] overflow-y-auto p-2 sm:p-3 md:p-4 mt-10 sm:mt-2 lg:mt-0"> */}
-    
       {trip_data ? (
         <Timeline data={data} trip_data={trip_data} />
       ) : (
         <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-2xl">
-        {/* <div className="relative w-full h-full min-h-[300px] flex items-center justify-center overflow-hidden rounded-2xl "> */}
           <div className="absolute top-3 right-3 z-50 pointer-events-auto">
             <Button
               variant="outline"
@@ -166,7 +156,6 @@ export function Itineray() {
                 width={400}
                 height={400}
                 alt="travel"
-                // className="w-full h-full object-cover rounded-2xl"
                 className="w-full h-full min-h-[300px] object-cover rounded-2xl"
                 unoptimized
               />

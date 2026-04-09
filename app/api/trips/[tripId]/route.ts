@@ -11,16 +11,9 @@ interface Param {
 }
 export async function GET(req: NextRequest, { params }:Param) {
   try {
-    await connectToDb();
-    // const clerkUser = await currentUser();
-    // if (!clerkUser) {
-    //   return new Response(JSON.stringify({ error: "Not authenticated" }), {
-    //     status: 401,
-    //   });
-    // }
+    await connectToDb(); 
 
-    const { tripId } = await params;
-
+    const { tripId } = await params; 
     const trip = await Trip.findById(tripId);
 
     if (!trip) {

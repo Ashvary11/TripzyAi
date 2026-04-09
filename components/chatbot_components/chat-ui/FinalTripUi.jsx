@@ -12,14 +12,14 @@ function FinalTripUi({ disable }) {
   let userId = localStorage.getItem("user_uuidv4");
   const handleViewTrip = () => {
     if (tripId) {
-      router.push(`/my/${tripId}`);
+      router.push(`/trips/${tripId}`);
     }
   };
 
   useEffect(() => {
     const fetchLastTrip = async () => {
       try {
-        const { data } = await axios.get(`/api/trip/last?userId=${userId}`);
+        const { data } = await axios.get(`/api/trips/last?userId=${userId}`);
         setTripId(data._id);
       } catch (err) {
         console.error("Failed to fetch last trip:", err);

@@ -46,7 +46,7 @@ function Hero() {
     //   router.push("/sign-in");
     //   return;
     // }
-    router.push("/create?title=" + encodeURIComponent(input));
+    router.push("/trips/create?title=" + encodeURIComponent(input));
     setInput("");
   };
 

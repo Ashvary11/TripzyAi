@@ -21,7 +21,7 @@ interface RemoveTripProps {
 function RemoveTrip({ tripId, onDeleted }: RemoveTripProps) {
   const handleDelete = async () => {
     try {
-      const res = await fetch(`/api/trip/${tripId}`, {
+      const res = await fetch(`/api/trips/${tripId}`, {
         method: "DELETE",
       });
 

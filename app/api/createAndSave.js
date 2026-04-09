@@ -1,7 +1,7 @@
 // import { currentUser } from "@clerk/nextjs/server";
 import User from "@/models/UserModel";
-import connectToDb from "../../../lib/dbConfig";
-import Trip from "../../../models/TripModel";
+import connectToDb from "../../lib/dbConfig";
+import Trip from "../../models/TripModel";
 
 
 export default async function createAndSaveTrip(data, userId) {

@@ -1,6 +1,6 @@
 import React from "react";
-import Footer from "./_components/Footer";
-import Hero from "./_components/HeroSection";
+import Footer from "../components/(main)/Footer";
+import Hero from "../components/(main)/HeroSection";
 
 export const metadata = {
   title: "Tripzy-Ai",

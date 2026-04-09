@@ -7,14 +7,7 @@ import Trip from "../../../../models/TripModel";
 export async function GET(req: NextRequest) {
   try {
 
-    await connectToDb();
-    // const clerkUser = await currentUser();
-
-    // if (!clerkUser) {
-    //   return new Response(JSON.stringify({ error: "Not authenticated" }), {
-    //     status: 401,
-    //   });
-    // }
+    await connectToDb(); 
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
     const lastTrip = await Trip.findOne({ userId: userId })

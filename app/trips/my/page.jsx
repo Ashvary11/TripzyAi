@@ -15,9 +15,8 @@ export default function My_Trip() {
 
   useEffect(() => {
     const fetchTrips = async () => {
-      try {
-        // const res = await axios.get("/api/trip");
-        const res = await axios.get(`/api/trip?userId=${userId}`);
+      try { 
+        const res = await axios.get(`/api/trips/my_trips?userId=${userId}`);
         console.log(userId);
 
         setTrips(res.data?.trips || []);
@@ -40,11 +39,18 @@ export default function My_Trip() {
 
   return (
     <div className="container mx-auto px-4 py-5 flex flex-col sm:items-center">
-      {trips.length > 0 && (
-        <h1 className="text-3xl font-bold mb-8 sm:text-center text-gray-800 dark:text-amber-100 text-left px-3">
+      <div className="w-full max-w-6xl flex items-center justify-between mb-6 px-3">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-amber-100">
           My Planned Trips
         </h1>
-      )}
+
+        <Link
+          href="/trips/explore"
+          className="text-sm font-medium text-amber-600 hover:underline dark:text-amber-400"
+        >
+          Explore Trips
+        </Link>
+      </div>
 
       {trips.length === 0 ? (
         <div
@@ -67,7 +73,7 @@ export default function My_Trip() {
             Start planning your first adventure and create lasting memories.
           </p>
 
-          <Link href="/create">
+          <Link href="/trips/create">
             <Button
               className="px-8 py-2 text-base rounded-full shadow-sm hover:shadow-md transition
               bg-amber-500 hover:bg-amber-600 text-white
@@ -146,7 +152,7 @@ export default function My_Trip() {
 
               {/* Actions */}
               <div className="mt-6 flex justify-between items-center border-t pt-4 dark:border-amber-700/30">
-                <Link href={`/my/${trip._id}`}>
+                <Link href={`/trips/${trip._id}`}>
                   <Button
                     size="sm"
                     variant="outline"

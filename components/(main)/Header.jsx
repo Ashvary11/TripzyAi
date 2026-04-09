@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/darkMode";
-import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
+// import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -88,8 +88,8 @@ function Header() {
             <Button className="whitespace-nowrap" disabled>
               Loading...
             </Button>
-          ) : path === "/my" ? (
-            <Link href="/create">
+          ) : path === "/trips/my" ? (
+            <Link href="/trips/create">
               <Button className="whitespace-nowrap cursor-pointer dark:bg-amber-900 dark:text-white dark:hover:bg-amber-800">
                 Create Trip
               </Button>
@@ -102,13 +102,13 @@ function Header() {
                   navigator.clipboard.writeText(user);
                   alert(`ID copied : ${user}`);
                 }}
-                className={`text-sm text-white font-bold border-2 p-2 rounded-full bg-amber-500/90 cursor-pointer select-none
+                className={`text-sm text-white font-bold border-2 p-2 rounded-lg bg-amber-500/90 cursor-pointer select-none
         transition-transform duration-150 hover:bg-amber-600 `}
               >
                 ID: {user.slice(0, 4)}...
               </span>
 
-              <Link href="/my">
+              <Link href="/trips/my">
                 <Button className="whitespace-nowrap cursor-pointer">
                   My Trips
                 </Button>
@@ -155,13 +155,13 @@ function Header() {
                     asChild
                     className="border-b border-gray-300 rounded-none"
                   >
-                    <Link href="/create">Create Trip</Link>
+                    <Link href="/trips/create">Create Trip</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     asChild
                     className="border-b border-gray-300 rounded-none"
                   >
-                    <Link href="/my">My-Trips</Link>
+                    <Link href="/trips/my">My-Trips</Link>
                   </DropdownMenuItem>
                 </>
               ) : (

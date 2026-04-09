@@ -23,7 +23,7 @@ export default function TripDetailPage({ params }) {
 
     const fetchTripData = async () => {
       try {
-        const res = await axios.get(`/api/trip/${tripId}`);
+        const res = await axios.get(`/api/trips/${tripId}`);
         setData(res.data.trip_plan);
         console.log(res.data.trip_plan);
       } catch (err) {

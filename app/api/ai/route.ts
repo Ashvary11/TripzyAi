@@ -3,14 +3,11 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnableWithMessageHistory } from "@langchain/core/runnables";
 import { InMemoryChatMessageHistory } from "@langchain/core/chat_history";
-// import { ArcjetRateLimitReason } from "@arcjet/next";
-import createAndSaveTrip from "../trip/createAndSave.js";
+import createAndSaveTrip from "../createAndSave.js";
 import { aj } from "@/lib/arject";
-import {
-  TripPlannerPrompt,
-  FinalTripPlannerPrompt,
-} from "@/lib/prompts/tripPlannerPrompts";
 import { messageHistories } from "@/lib/messageHistories";
+import { FinalTripPlannerPrompt } from "@/lib/prompts/FinalTripPlannerPrompt.js";
+import { TripPlannerPrompt } from "@/lib/prompts/TripPlannerPrompt.js";
 
 // ----------------- Model -----------------
 const llm = new ChatGoogleGenerativeAI({
@@ -22,14 +19,8 @@ const llm = new ChatGoogleGenerativeAI({
 
 // ----------------- API Route -----------------
 export async function POST(req: NextRequest) {
-  // console.log("messageHistories", messageHistories);
-
   try {
     const { messages, sessionId, isFinal, userId } = await req.json();
-
-    // console.log("fetch  userId local", userId);
-    // console.log("backend", messages, sessionId);
-
     if (!messages || !sessionId) {
       return NextResponse.json(
         { error: "message and sessionId are required" },
@@ -39,23 +30,6 @@ export async function POST(req: NextRequest) {
 
     // ------ rate limiting
     const user = userId || req.headers.get("x-forwarded-for") || "anon";
-    // Apply rate limit
-    // const decision = await aj.protect(req, {
-    //   userId: user?.primaryEmailAddress?.emailAddress ?? "",
-    //   requested: isFinal ? 1 : 0,
-    // });
-
-    // const reason = decision.reason as ArcjetRateLimitReason;
-    // console.log("Arcjet reson", reason);
-
-    // if (reason?.remaining == 0) {
-    //   return NextResponse.json({
-    //     resp: "You have reached your trip creation limit for today. Please try again tomorrow.",
-    //     ui: "limit",
-    //   });
-    // }
-    // ---------------
-    // Apply rate limit
     const decision = await aj.protect(req, {
       userId: user,
       requested: 1, // x deduct bucket request per message

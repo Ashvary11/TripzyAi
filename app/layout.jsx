@@ -10,22 +10,20 @@ const outfit = Outfit({ subsets: ["latin"] });
 export default function RootLayout({ children }) {
   return (
     // <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${outfit.className} bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}
+    <html lang="en">
+      <body
+        className={`${outfit.className} bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {/* <Provider>{children}</Provider>
-             */}
-            <Provider>{children}</Provider>
-          </ThemeProvider>
-        </body>
-      </html>
+          <Provider>{children}</Provider>
+        </ThemeProvider>
+      </body>
+    </html>
     // </ClerkProvider>
   );
 }
