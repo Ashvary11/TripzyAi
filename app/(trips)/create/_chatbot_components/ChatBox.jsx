@@ -26,8 +26,8 @@ function ChatBox() {
   const searchParams = useSearchParams();
   const title = searchParams.get("title") ?? "";
   let userId = localStorage.getItem("user_uuidv4");
-  console.log("user_uuidv4",userId);
-  
+  // console.log("user_uuidv4",userId);
+
   useEffect(() => {
     let storedId = localStorage.getItem("trip_session_id");
     if (!storedId) {
@@ -97,6 +97,8 @@ function ChatBox() {
           // AI issue (rate limit / overload)
           errorMessage = data?.message;
         } else if (data?.source === "server") {
+          errorMessage = data?.message;
+        } else if (data?.source === "limit") {
           errorMessage = data?.message;
         }
 
@@ -187,17 +189,18 @@ function ChatBox() {
   }, [isFinal, userInput, onSend]);
 
   const resetChat = async () => {
-    console.log("reset", sessionId);
+    console.log("Session-Reset: ", sessionId);
     try {
       const response = await axios.post("/api/ai/chat-reset", { sessionId });
-      console.log(response);
+      console.log(response.data);
       setMessages([]);
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="h-[80vh] flex flex-col ">
+    // <div className="h-[80vh] flex flex-col ">
+    <div className="flex flex-col h-[70vh] sm:h-[75vh] lg:h-[calc(100vh-120px)] z-10 ">
       {/* <BudgetUi onSelectedOption={(val) => onSend(val)} disable={isFinal} /> */}
       {/* <GroupSize onSelectedOption={(val) => onSend(val)} disable={isFinal} /> */}
 
@@ -209,7 +212,7 @@ function ChatBox() {
           }}
         />
       ) : (
-        <div className="flex justify-end p-2">
+        <div className="flex justify-end p-2  sm:p-3">
           <button
             className="group relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-gray-700 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer border border-transparent hover:border-gray-200 dark:hover:bg-red-400      dark:bg-gray-500 dark:text-white"
             onClick={resetChat}
@@ -229,7 +232,10 @@ function ChatBox() {
         </div>
       )}
       {/* Messages */}
-      <section className="flex-1 overflow-y-auto p-4" ref={messagesEndRef}>
+      <section
+        className="flex-1 overflow-y-auto p-2 sm:p-3 md:p-4"
+        ref={messagesEndRef}
+      >
         {messages.map((msg, i) => (
           <div
             key={i}
@@ -238,7 +244,8 @@ function ChatBox() {
             }`}
           >
             <div
-              className={`max-w-lg px-4 py-2 rounded-lg ${
+              // className={`max-w-lg px-4 py-2 rounded-lg ${
+              className={`max-w-[85%] sm:max-w-md lg:max-w-lg px-4 py-2 rounded-lg ${
                 msg.role === "user"
                   ? "bg-primary text-white dark:bg-orange-600 dark:text-white shadow-sm dark:shadow-orange-900/20"
                   : "bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow-sm"
@@ -262,8 +269,12 @@ function ChatBox() {
       <section className="p-4">
         <div className="relative border rounded-2xl">
           <Textarea
-            placeholder="Create a trip from Paris to New York"
-            className="w-full h-20 border-none focus-visible:ring-0 shadow-none resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            placeholder={
+              !messages.length
+                ? "Try 'Plan a 5-day trip to Paris'..."
+                : "Type your answer here..."
+            }
+            className="w-full h-16 sm:h-20 p-2 sm:p-3 md:p-4 border-none focus-visible:ring-0 shadow-none resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             onChange={(e) => setUserInput(e.target.value)}
             value={userInput}
             disabled={isFinal}

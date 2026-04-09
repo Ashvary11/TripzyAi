@@ -1,6 +1,6 @@
 // import { currentUser } from "@clerk/nextjs/server";
+import User from "@/models/UserModel";
 import connectToDb from "../../../lib/dbConfig";
-import User from "../../../models/UserModel";
 import Trip from "../../../models/TripModel";
 
 
@@ -10,34 +10,15 @@ export default async function createAndSaveTrip(data, userId) {
     if (!userId) {
       return { error: "User Id required" };
     }
-    // const clerkUser = await currentUser();
-
-    // if (!clerkUser) {
-    //   return new Response(JSON.stringify({ error: "Not authenticated" }), {
-    //     status: 401,
-    //   });
-    // }
-
-    // let user = await User.findOne({ clerkId: clerkUser.id });
+ 
     let user = await User.findOne({ userId: userId });
-
-
-    // if (!user) {
-    //   user = await User.create({
-    //     clerkId: clerkUser.id,
-    //     name: clerkUser.fullName,
-    //     email: clerkUser.emailAddresses[0]?.emailAddress,
-    //     imageUrl: clerkUser.imageUrl,
-    //   });
-    // }
     if (!user) {
       user = await User.create({
-        userId: userId.id,
+        userId: userId,
       });
-    }
-
+    } 
     const newTrip = await Trip.create({
-      userId: userId, 
+      userId: userId,
       trip_plan: data,
     });
     console.log("function triggred and saved");

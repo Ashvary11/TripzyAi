@@ -3,7 +3,6 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnableWithMessageHistory } from "@langchain/core/runnables";
 import { InMemoryChatMessageHistory } from "@langchain/core/chat_history";
-// import { currentUser } from "@clerk/nextjs/server";
 import { ArcjetRateLimitReason } from "@arcjet/next";
 import createAndSaveTrip from "../trip/createAndSave.js";
 import { aj } from "@/lib/arject";
@@ -23,12 +22,13 @@ const llm = new ChatGoogleGenerativeAI({
 
 // ----------------- API Route -----------------
 export async function POST(req: NextRequest) {
+  // console.log("messageHistories", messageHistories);
+
   try {
     const { messages, sessionId, isFinal, userId } = await req.json();
 
-
-    console.log("fetch  userId local", userId);
-    console.log("backend", messages, sessionId);
+    // console.log("fetch  userId local", userId);
+    // console.log("backend", messages, sessionId);
 
     if (!messages || !sessionId) {
       return NextResponse.json(
@@ -38,9 +38,8 @@ export async function POST(req: NextRequest) {
     }
 
     // ------ rate limiting
-    // const user = await currentUser();
-    const user = userId;
-
+    const user = userId || req.headers.get("x-forwarded-for") || "anon";
+    // Apply rate limit
     // const decision = await aj.protect(req, {
     //   userId: user?.primaryEmailAddress?.emailAddress ?? "",
     //   requested: isFinal ? 1 : 0,
@@ -55,8 +54,26 @@ export async function POST(req: NextRequest) {
     //     ui: "limit",
     //   });
     // }
+    // ---------------
+    // Apply rate limit
+    const decision = await aj.protect(req, {
+      userId: user,
+      requested: 1, // x deduct bucket request per message
+    });
+    console.log("ArcJetdecision-", decision.reason);
 
+    if (decision.isDenied()) {
+      return NextResponse.json(
+        {
+          error: "RATE_LIMIT_EXCEEDED",
+          message: "⚡ Too many messages! Please wait a few seconds.",
+          source: "limit",
+        },
+        { status: 429 },
+      );
+    }
     // ----------------- Prompt Template -----------------
+
     const chatPrompt = ChatPromptTemplate.fromMessages([
       [
         "system",
@@ -141,17 +158,18 @@ export async function POST(req: NextRequest) {
 
     const parsed = await invokeWithRetry(inputMessage);
 
-    console.log("backed_parsed:--", parsed);
-    console.log("userID in chat box:--", user);
+    console.log("parsed_Ai_Response:--", parsed);
+    console.log("parsed.trip_plan check for save trip:--", parsed.trip_plan);
+    // console.log("userID in chat box:--", user);
 
     if (parsed.trip_plan) {
       try {
-        const result = await createAndSaveTrip(parsed.trip_plan,user);
-        console.log("Saved trip ID:", result);
+        const result = await createAndSaveTrip(parsed.trip_plan, user);
+        console.log("Trip-Saved with Id:", result);
         setTimeout(() => {
           messageHistories.delete(sessionId);
         }, 5000);
-        console.log("messageHistories:", messageHistories);
+        // console.log("messageHistories:", messageHistories);
       } catch (err) {
         console.error("Failed to save trip", err);
       }

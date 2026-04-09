@@ -1,8 +1,10 @@
+import { NextRequest, NextResponse } from "next/server";
 import connectToDb from "../../../../lib/dbConfig";
 import { currentUser } from "@clerk/nextjs/server";
 import Trip from "../../../../models/TripModel";
 
-export async function GET() {
+
+export async function GET(req: NextRequest) {
   try {
 
     await connectToDb();
@@ -26,7 +28,7 @@ export async function GET() {
     }
 
     return new Response(JSON.stringify(lastTrip), { status: 200 });
-  } catch (err) {
+  } catch (err:any) {
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
     });

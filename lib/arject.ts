@@ -1,14 +1,27 @@
 import arcjet, { tokenBucket } from "@arcjet/next";
 
+// export const aj = arcjet({
+//   key: process.env.ARCJET_KEY!, // Get your site key from https://app.arcjet.com
+//   rules: [
+//     tokenBucket({
+//       mode: "LIVE",
+//       characteristics: ["userId"], // track requests by a custom user ID
+//       refillRate: 60, // refill 10 tokens per interval
+//       interval: 60 * 60 * 12, // 60 * 60 * 24 refill every 24 hrs that in seconds
+//       capacity: 60, // bucket maximum capacity of 30 tokens
+//     }),
+//   ],
+// });
+
 export const aj = arcjet({
   key: process.env.ARCJET_KEY!, // Get your site key from https://app.arcjet.com
   rules: [
     tokenBucket({
       mode: "LIVE",
       characteristics: ["userId"], // track requests by a custom user ID
-      refillRate: 60, // refill 10 tokens per interval
-      interval: 60 * 60 * 12, // 60 * 60 * 24 refill every 24 hrs that in seconds
-      capacity: 60, // bucket maximum capacity of 30 tokens
+      refillRate: 1, // refill 1 tokens per interval
+      interval: 6, //  refill every 10sec that in seconds
+      capacity: 10, // bucket maximum capacity of 30 tokens
     }),
   ],
 });

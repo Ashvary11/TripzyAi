@@ -13,7 +13,8 @@ const UserSchema = new mongoose.Schema(
     //   type: String,
     // },
     userId: {
-      type: String,
+      type: String, 
+      unique: true,
     },
   },
   { timestamps: true }
