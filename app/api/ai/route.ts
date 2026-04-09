@@ -3,7 +3,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { RunnableWithMessageHistory } from "@langchain/core/runnables";
 import { InMemoryChatMessageHistory } from "@langchain/core/chat_history";
-import { ArcjetRateLimitReason } from "@arcjet/next";
+// import { ArcjetRateLimitReason } from "@arcjet/next";
 import createAndSaveTrip from "../trip/createAndSave.js";
 import { aj } from "@/lib/arject";
 import {

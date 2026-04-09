@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 import connectToDb from "../../../../lib/dbConfig";
 // import { currentUser } from "@clerk/nextjs/server";
 import Trip from "../../../../models/TripModel";
 
 interface Param {
-  params: {
+  params: Promise<{
     tripId: string;
-  };
+  }>;
 }
 export async function GET(req: NextRequest, { params }:Param) {
   try {
